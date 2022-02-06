@@ -1,12 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 
-import { BaseEntity } from './base.entity'
+import { BaseDate } from './baseDate.entity'
+import { UserProfile } from './profile.entity'
 
 @Entity()
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number
+export class User extends BaseDate {
+  @OneToOne(() => UserProfile, (profile) => profile.user)
+  @JoinColumn()
+  profile: UserProfile
 
-  @Column()
+  @Column({ length: 255 })
   username: string
+
+  @Column({ unique: true, length: 255, type: 'varchar' })
+  email: string
 }
