@@ -1,19 +1,23 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+
 import { BaseDate } from './baseDate.entity'
-import { User } from './user.entity'
+import { Note } from './note.entity'
 
 @Entity()
-export class UserProfile extends BaseDate {
-  @OneToOne(() => User, (user) => user.profile)
+export class NoteMeta extends BaseDate {
+  @OneToOne(() => Note, (note) => note.noteMeta)
   @JoinColumn()
-  user: User
+  note: Note
 
   @Column({ length: 255 })
-  nickname: string
+  url: string
 
   @Column({ length: 255, type: 'varchar' })
   thumbnail: string
 
+  @Column({ length: 255 })
+  title: string
+
   @Column('text')
-  about: string
+  description: string
 }
