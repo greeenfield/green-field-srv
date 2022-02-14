@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
-import { BaseDate } from './baseDate.entity'
+import { BaseDate } from '../../../notes/infrastructure/entities/baseDate.entity'
 import { User } from './user.entity'
 
 @Entity()

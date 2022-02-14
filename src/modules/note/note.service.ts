@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Note } from '../../entity/note.entity'
+import { Note } from '../../app/notes/infrastructure/entities/note.entity'
 import { NoteQueryRepository } from './note.repository'
 
 @Injectable()

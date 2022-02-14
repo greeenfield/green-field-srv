@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { Tag } from '../../../entity/tag.entity'
-import { User } from '../../../entity/user.entity'
-import { NoteMeta } from '../../../entity/noteMeta.entity'
+import { Tag } from '../infrastructure/entities/tag.entity'
+import { User } from '../../users/infrastructure/entities/user.entity'
+import { NoteMeta } from '../infrastructure/entities/noteMeta.entity'
 
 export type NoteRequireProperties = Required<{
   readonly id: string

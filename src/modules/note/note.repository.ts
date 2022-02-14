@@ -1,6 +1,6 @@
 import { EntityRepository, Repository, createQueryBuilder } from 'typeorm'
 
-import { Note } from '../../entity/note.entity'
+import { Note } from '../../app/notes/infrastructure/entities/note.entity'
 
 @EntityRepository(Note)
 export class NoteQueryRepository extends Repository<Note> {

@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common'
 import { EventPublisher } from '@nestjs/cqrs'
 
 import { Note, NoteImplement, NoteProperties } from './note'
-import { User } from '#entity/user.entity'
+import { User } from '#app/users/infrastructure/entities/user.entity'
 
 export class NoteFactory {
   constructor(@Inject(EventPublisher) private readonly eventPublisher: EventPublisher) {}

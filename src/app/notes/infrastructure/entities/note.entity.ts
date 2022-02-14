@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
 
 import { BaseDate } from './baseDate.entity'
-import { User } from './user.entity'
+import { User } from '../../../users/infrastructure/entities/user.entity'
 import { NoteMeta } from './noteMeta.entity'
 import { Tag } from './tag.entity'
 

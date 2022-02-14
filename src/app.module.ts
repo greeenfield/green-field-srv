@@ -4,14 +4,14 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 // import * as path from 'path'
 
 import { AuthModule } from './modules/auth/auth.module'
-import { UserModule } from './modules/user/user.module'
-import { NoteModule } from './modules/note/note.module'
+import { UserModule } from './app/users/user.module'
+import { NoteModule } from './app/notes/note.module'
 
-import { Note } from './entity/note.entity'
-import { UserProfile } from './entity/profile.entity'
-import { User } from './entity/user.entity'
-import { Tag } from './entity/tag.entity'
-import { NoteMeta } from './entity/noteMeta.entity'
+import { Note } from './app/notes/infrastructure/entities/note.entity'
+import { UserProfile } from './app/users/infrastructure/entities/profile.entity'
+import { User } from './app/users/infrastructure/entities/user.entity'
+import { Tag } from './app/notes/infrastructure/entities/tag.entity'
+import { NoteMeta } from './app/notes/infrastructure/entities/noteMeta.entity'
 
 const getTypeOrmModule = () => {
   // const entitiesPath = path.join(__dirname, '/entity/*.entitiy{.ts,.js}')
