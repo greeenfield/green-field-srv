@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, UpdateDateColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
 
 import { BaseDate } from './baseDate.entity'
 import { User } from './user.entity'
@@ -11,9 +11,9 @@ export class Note extends BaseDate {
   @JoinColumn()
   user: User
 
-  @OneToOne(() => NoteMeta, (noteMeta) => noteMeta.note)
+  @OneToMany(() => NoteMeta, (noteMeta) => noteMeta.note)
   @JoinColumn()
-  noteMeta: NoteMeta
+  noteMetas: NoteMeta[]
 
   @Column({ length: 255 })
   title: string
