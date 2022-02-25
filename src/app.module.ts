@@ -1,30 +1,19 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { ConfigModule } from '@nestjs/config'
 
-import { AuthModule } from './modules/auth/auth.module'
-import { UserController } from './user/user.controller'
-import { UserModule } from './user/user.module'
+import { UserModule } from '#modules/user/user.module'
+import { NoteModule } from '#modules/note/note.module'
+
+import { getTypeOrmModule } from './typeORM.config'
+
+const getConfigModule = () => {
+  return ConfigModule.forRoot({
+    isGlobal: true,
+    envFilePath: process.env.NODE_ENV === 'development' ? '.env.development' : '.env.development',
+  })
+}
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 3000,
-      username: 'test',
-      password: 'test',
-      database: 'test',
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
-      entities: [],
-    }),
-    AuthModule,
-    UserModule,
-  ],
-  controllers: [UserController],
-  providers: [],
+  imports: [getTypeOrmModule(), getConfigModule(), UserModule, NoteModule],
 })
 export class AppModule {}
