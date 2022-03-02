@@ -7,20 +7,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoteModule = void 0;
+const cqrs_1 = require("@nestjs/cqrs");
 const common_1 = require("@nestjs/common");
-const note_controller_1 = require("./note.controller");
-const note_service_1 = require("./note.service");
-const note_repository_1 = require("./note.repository");
 const typeorm_1 = require("@nestjs/typeorm");
-const note_entity_1 = require("../../entity/note.entity");
+const config_1 = require("@nestjs/config");
+const create_note_handler_1 = require("./application/commands/handler/create-note.handler");
+const factory_1 = require("./domain/factory");
+const note_controller_1 = require("./interface/note.controller");
+const note_repository_1 = require("./infrastructure/repositories/note.repository");
+const injection_token_1 = require("./application/injection.token");
+const infrastructure = [
+    {
+        provide: injection_token_1.InjectionToken.NOTE_REPOSITORY,
+        useClass: note_repository_1.NoteRepositoryImplement,
+    },
+];
+const application = [create_note_handler_1.CreateNoteHandler];
+const domain = [factory_1.NoteFactory];
 let NoteModule = class NoteModule {
 };
 NoteModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([note_entity_1.Note, note_repository_1.NoteQueryRepository])],
+        imports: [cqrs_1.CqrsModule, config_1.ConfigService],
         exports: [typeorm_1.TypeOrmModule],
         controllers: [note_controller_1.NoteController],
-        providers: [note_service_1.NoteService, note_repository_1.NoteQueryRepository],
+        providers: [...infrastructure, ...application, ...domain],
     })
 ], NoteModule);
 exports.NoteModule = NoteModule;

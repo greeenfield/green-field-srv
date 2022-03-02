@@ -5,7 +5,7 @@ import { Note } from './note.entity'
 
 @Entity()
 export class NoteMeta extends BaseDate {
-  @OneToOne(() => Note, (note) => note.noteMeta)
+  @OneToOne(() => Note, (note) => note.noteMetas)
   @JoinColumn()
   note: Note
 

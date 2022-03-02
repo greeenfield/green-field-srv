@@ -4,7 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
 
 import { injectionToken } from '#shared/injection-token'
+
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
+
+import { CreateUserHandler } from '#modules/user/application/commands/handler/create-user.handler'
+
 import { UserController } from '#modules/user/interface/user.controller'
 
 const infrastructure: Provider[] = [
@@ -14,7 +18,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application: Provider[] = []
+const application = [CreateUserHandler]
 
 const domain: Provider[] = []
 

@@ -8,16 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
+const body_parser_1 = __importDefault(require("body-parser"));
 const core_1 = require("@nestjs/core");
+const config_1 = require("@nestjs/config");
+const configuration_1 = require("./config/configuration");
 const app_module_1 = require("./app.module");
-const typeorm_1 = require("typeorm");
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield (0, typeorm_1.createConnection)();
+        (0, configuration_1.validateEnvironmentVars)();
         const app = yield core_1.NestFactory.create(app_module_1.AppModule);
-        yield app.listen(3000);
+        app.use(body_parser_1.default.json());
+        const configService = app.get(config_1.ConfigService);
+        yield app.listen(configService.get('PORT'));
     });
 }
 bootstrap();
