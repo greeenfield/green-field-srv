@@ -1,10 +1,9 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { UserProfile } from '#modules/user/infrastructure/entities/profile.entity'
-
 export type UserRequireProperties = Required<{
-  readonly id: number
+  readonly id: string
   readonly username: string
+  readonly nickname: string
   readonly email: string
 }>
 
@@ -20,8 +19,9 @@ export interface User {
 }
 
 export class UserImplement extends AggregateRoot implements User {
-  private readonly id: number
+  private readonly id: string
   private readonly username: string
+  private readonly nickname: string
   private readonly email: string
 
   constructor(properties: UserRequireProperties & UserOptionalProperties) {
@@ -33,6 +33,7 @@ export class UserImplement extends AggregateRoot implements User {
     return {
       id: this.id,
       username: this.username,
+      nickname: this.nickname,
       email: this.email,
     }
   }

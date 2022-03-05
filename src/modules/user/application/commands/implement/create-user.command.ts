@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs'
 
 export class CreateUserCommand implements ICommand {
-  constructor(readonly userId: string) {}
+  constructor(readonly username, readonly nickname, readonly email) {}
 }

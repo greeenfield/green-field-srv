@@ -2,7 +2,7 @@ import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'type
 
 export class BaseDate {
   @PrimaryGeneratedColumn('uuid')
-  id!: number
+  id!: string
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date

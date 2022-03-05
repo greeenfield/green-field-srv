@@ -1,5 +1,10 @@
-import { User } from '#modules/user/infrastructure/entities/user.entity'
+// import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
+import { User } from '#modules/user/domain/user'
 
 export class UserRepository {
-  findById: (id: string) => Promise<User>
+  generateId: () => Promise<string>
+  save: (user: User) => Promise<void>
+  // findById: (id: string) => Promise<User>
+  // findByNickname: (nickname: string) => Promise<User>
+  // findByEmail: (email: string) => Promise<User>
 }

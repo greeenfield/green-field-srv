@@ -1,12 +1,13 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
-import { BaseDate } from '../../../note/infrastructure/entities/baseDate.entity'
-import { User } from './user.entity'
+
+import { BaseDate } from '#modules/note/infrastructure/entities/baseDate.entity'
+import { UserEntity } from './user.entity'
 
 @Entity()
-export class UserProfile extends BaseDate {
-  @OneToOne(() => User, (user) => user.profile)
+export class UserProfileEntity extends BaseDate {
+  @OneToOne(() => UserEntity, (user) => user.profile)
   @JoinColumn()
-  user: User
+  user: UserEntity
 
   @Column({ length: 255 })
   nickname: string
