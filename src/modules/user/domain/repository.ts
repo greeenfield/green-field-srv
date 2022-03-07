@@ -1,4 +1,3 @@
-// import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 import { User } from '#modules/user/domain/user'
 
 export class UserRepository {

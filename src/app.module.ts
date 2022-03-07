@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 import { UserModule } from '#modules/user/user.module'
 import { NoteModule } from '#modules/note/note.module'
 
+import { AppService } from './app.service'
 import { getTypeOrmModule } from './typeORM.config'
 
 const getConfigModule = () => {
@@ -14,6 +15,7 @@ const getConfigModule = () => {
 }
 
 @Module({
-  imports: [getTypeOrmModule(), getConfigModule(), UserModule, NoteModule],
+  imports: [getConfigModule(), getTypeOrmModule(), UserModule, NoteModule],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -6,8 +6,12 @@ import { ConfigService } from '@nestjs/config'
 import { injectionToken } from '#shared/injection-token'
 
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
+import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
+import { UserProfileEntity } from '#modules/user/infrastructure/entities/profile.entity'
 
 import { CreateUserHandler } from '#modules/user/application/commands/handler/create-user.handler'
+
+import { UserFactory } from '#modules/user/domain/factory'
 
 import { UserController } from '#modules/user/interface/user.controller'
 
@@ -20,10 +24,10 @@ const infrastructure: Provider[] = [
 
 const application = [CreateUserHandler]
 
-const domain: Provider[] = []
+const domain: Provider[] = [UserFactory]
 
 @Module({
-  imports: [CqrsModule, ConfigService],
+  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([UserEntity, UserProfileEntity])],
   exports: [TypeOrmModule],
   controllers: [UserController],
   providers: [...infrastructure, ...application, ...domain],

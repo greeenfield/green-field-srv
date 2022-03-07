@@ -13,11 +13,6 @@ export const getTypeOrmModule = () => {
     username,
     password,
     database: name,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
     entities: [`${__dirname}/**/*.entity{.ts,.js}`],
     autoLoadEntities: true,
     keepConnectionAlive: true,
