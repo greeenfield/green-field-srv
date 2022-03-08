@@ -4,9 +4,9 @@ export class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn({ type: 'timestamptz', default: new Date() })
   createdAt!: Date
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz', default: new Date() })
   updatedAt!: Date
 }

@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
 
-import { BaseEntity } from './base.entity'
+import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { NoteMeta } from './noteMeta.entity'
-import { Tag } from './tag.entity'
+import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity()
 export class Note extends BaseEntity {

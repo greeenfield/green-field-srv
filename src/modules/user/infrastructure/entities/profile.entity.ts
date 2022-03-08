@@ -1,15 +1,15 @@
 import { Column, Entity } from 'typeorm'
 
-import { BaseEntity } from '#modules/note/infrastructure/entities/base.entity'
+import { BaseEntity } from '#shared/entity/base.entity'
 
-@Entity('profile')
+@Entity({ name: 'user_profile' })
 export class UserProfileEntity extends BaseEntity {
   @Column({ length: 255 })
-  nickname!: string
+  nickname: string
 
   @Column({ length: 255, type: 'varchar' })
-  thumbnail!: string
+  thumbnail: string
 
   @Column('text')
-  about!: string
+  about: string
 }

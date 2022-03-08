@@ -14,10 +14,10 @@ export class CreateUserDTO {
   @MaxLength(12)
   readonly nickname: string
 
-  @IsString()
-  @MinLength(8)
-  @MaxLength(20)
-  readonly password: string
+  // @IsString()
+  // @MinLength(8)
+  // @MaxLength(20)
+  // readonly password: string
 
   @IsString()
   readonly thumbnail: string

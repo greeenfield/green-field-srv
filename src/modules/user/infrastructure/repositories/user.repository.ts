@@ -4,7 +4,6 @@ import { Inject } from '@nestjs/common'
 import { UserRepository } from '#modules/user/domain/repository'
 import { UserFactory } from '#modules/user/domain/factory'
 import { User } from '#modules/user/domain/user'
-
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 
 export class UserRepositoryImplement implements UserRepository {
@@ -12,6 +11,7 @@ export class UserRepositoryImplement implements UserRepository {
 
   async generateId(): Promise<string> {
     const entity = await getRepository(UserEntity).save(new UserEntity())
+
     return entity.id
   }
 
@@ -20,15 +20,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   private modelToEntity(model: User): UserEntity {
-    // return { ...model.properties() }
-    return {
-      id: '',
-      profile: { id: '', nickname: '', thumbnail: '', about: '', createdAt: new Date(), updatedAt: new Date() },
-      username: '',
-      email: '',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
+    return { ...model.userProperties(), profile: model.profileProperties() }
   }
 
   // async findById(id: string): Promise<User> {

@@ -14,6 +14,7 @@ export const getTypeOrmModule = () => {
     password,
     database: name,
     entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+    synchronize: true,
     autoLoadEntities: true,
     keepConnectionAlive: true,
     namingStrategy: new SnakeNamingStrategy(),

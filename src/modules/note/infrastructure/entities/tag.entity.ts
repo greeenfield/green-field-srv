@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm'
 
-import { BaseEntity } from './base.entity'
+import { BaseEntity } from '#shared/entity/base.entity'
 
 @Entity()
 export class Tag extends BaseEntity {

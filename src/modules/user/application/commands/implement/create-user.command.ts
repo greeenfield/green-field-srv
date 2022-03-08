@@ -5,7 +5,6 @@ export class CreateUserCommand implements ICommand {
     readonly username: string,
     readonly email: string,
     readonly nickname: string,
-    readonly password: string,
     readonly thumbnail: string,
     readonly about: string,
   ) {}
