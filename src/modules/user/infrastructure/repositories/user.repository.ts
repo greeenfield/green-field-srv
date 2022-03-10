@@ -9,10 +9,10 @@ import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 export class UserRepositoryImplement implements UserRepository {
   constructor(@Inject(UserFactory) private readonly userFactory: UserFactory) {}
 
-  async generateId(): Promise<string> {
-    const entity = await getRepository(UserEntity).save(new UserEntity())
+  async newId(): Promise<string> {
+    const user = await getRepository(UserEntity).save(new UserEntity())
 
-    return entity.id
+    return user.id
   }
 
   async save(data: User): Promise<void> {
@@ -20,7 +20,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   private modelToEntity(model: User): UserEntity {
-    return { ...model.userProperties(), profile: model.profileProperties() }
+    return model.properties()
   }
 
   // async findById(id: string): Promise<User> {

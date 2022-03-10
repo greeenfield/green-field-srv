@@ -1,18 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-export type UserRequireProperties = Required<{
-  readonly id: string
-  readonly username: string
-  readonly email: string
-}>
-
-export type UserOptionalProperties = Partial<{
-  readonly createdAt: Date
-  readonly updatedAt: Date
-}>
-
-export type UserProperties = UserRequireProperties & UserOptionalProperties
-
 export type UserProfileRequireProperties = Required<{
   readonly id: string
 }>
@@ -25,69 +12,81 @@ export type UserProfileOptionalProperties = Partial<{
   readonly updatedAt: Date
 }>
 
-export type UserProfileProperties = UserProfileRequireProperties & UserProfileOptionalProperties
+export type UserProfileProperties = UserProfileRequireProperties & Required<UserProfileOptionalProperties>
+
+export type UserRequireProperties = Required<{
+  readonly id: string
+  readonly email: string
+}>
+
+export type UserOptionalProperties = Partial<{
+  readonly username: string
+  readonly profile: UserProfileProperties
+  readonly createdAt: Date
+  readonly updatedAt: Date
+}>
+
+export type UserProperties = UserRequireProperties & Required<UserOptionalProperties>
 
 export interface User {
-  userProperties: () => UserProperties
-  profileProperties: () => UserProfileProperties
+  properties: () => UserProperties
 }
 
-// @Table(name = "orders")
-// public class Order {
-//   // ...
-//   public static class Builder {
-//     private List<LineItem> lineItems = new ArrayList<>();
-//     private List<OrderPayment> payments = new ArrayList<>();
-//     private ShippingAddress shippingAddress;
-//     public Builder() {
-//     }
-//     public Builder addOrderPayment(OrderPayment orderPayment) {
-//       this.payments.add(orderPayment);
-//       return this;
-//     }
-//     public Builder addLineItem(LineItem lineItem) {
-//       this.lineItems.add(lineItem);
-//       return this;
-//     }
-//     public Builder shippingAddress(ShippingAddress shippingAddress) {
-//       this.shippingAddress = shippingAddress;
-//       return this;
-//     }
-//     public Order build() {
-//       return new Order(this);
-//     }
-//   }
 export class UserImplement extends AggregateRoot implements User {
-  // private readonly id: string = ''
-  // private readonly username: string = ''
-  // private email: string
-  // private nickname: string | null = null
-  // private password: string | null = null
-  // private thumbnail: string | null = null
-  // private about: string | null = null
-  // private readonly createdAt: Date = new Date()
-  // private readonly updatedAt: Date = new Date()
-  private _user: UserProperties
-  private _profile: UserProfileProperties
+  private readonly id: string
+  private readonly email: string
+  private username = ''
+  private createdAt: Date = new Date()
+  private updatedAt: Date = new Date()
 
-  constructor() {
+  private profileId: string
+  private nickname = ''
+  private thumbnail = ''
+  private about = ''
+  private profileCreatedAt: Date = new Date()
+  private profileUpdatedAt: Date = new Date()
+
+  constructor(properties: UserRequireProperties & UserOptionalProperties) {
     super()
-    // Object.assign(this, properties)
+
+    this.id = properties.id
+    this.email = properties.email
+    this.username = properties.username
+    this.createdAt = properties.createdAt
+    this.updatedAt = properties.updatedAt
+
+    this.profileId = properties.profile.id
+    this.nickname = properties.profile.nickname
+    this.thumbnail = properties.profile.thumbnail
+    this.about = properties.profile.about
+    this.profileCreatedAt = properties.profile.createdAt
+    this.profileUpdatedAt = properties.profile.updatedAt
   }
 
-  setUser(properties: UserProperties) {
-    this._user = properties
+  setProfile(properties: UserProfileRequireProperties & UserProfileOptionalProperties) {
+    this.profileId = properties.id
+    this.nickname = properties.nickname
+    this.thumbnail = properties.thumbnail
+    this.about = properties.about
+    this.profileCreatedAt = properties.createdAt
+    this.profileUpdatedAt = properties.updatedAt
   }
 
-  setProfile(properties: UserProfileProperties) {
-    this._profile = properties
-  }
-
-  profileProperties() {
-    return this._profile
-  }
-
-  userProperties(): UserProperties {
-    return this._user
+  properties(): UserProperties {
+    return {
+      id: this.id,
+      email: this.email,
+      username: this.username,
+      profile: {
+        id: this.profileId,
+        nickname: this.nickname,
+        thumbnail: this.thumbnail,
+        about: this.about,
+        createdAt: this.profileCreatedAt,
+        updatedAt: this.profileUpdatedAt,
+      },
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    }
   }
 }

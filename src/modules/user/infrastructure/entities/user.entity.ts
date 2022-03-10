@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity, OneToOne, JoinColumn } from 'typeorm'
 
+import { UserProfileEntity } from '#modules/user/infrastructure/entities/profile.entity'
 import { BaseEntity } from '#shared/entity/base.entity'
-import { UserProfileEntity } from './profile.entity'
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
-  @OneToOne(() => UserProfileEntity)
+  @OneToOne(() => UserProfileEntity, (profile) => profile.user)
   @JoinColumn()
   profile: UserProfileEntity
 
