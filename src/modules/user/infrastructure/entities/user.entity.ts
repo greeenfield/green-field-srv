@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, JoinColumn } from 'typeorm'
+import { Column, Entity, OneToOne } from 'typeorm'
 
 import { UserProfileEntity } from '#modules/user/infrastructure/entities/profile.entity'
 import { BaseEntity } from '#shared/entity/base.entity'
@@ -6,12 +6,11 @@ import { BaseEntity } from '#shared/entity/base.entity'
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
   @OneToOne(() => UserProfileEntity, (profile) => profile.user)
-  @JoinColumn()
   profile: UserProfileEntity
 
   @Column({ length: 255, default: '' })
   username: string
 
-  @Column({ unique: true, length: 255, type: 'varchar', default: '' })
+  @Column({ length: 255, type: 'varchar', default: '' })
   email: string
 }

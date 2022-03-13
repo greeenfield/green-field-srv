@@ -46,7 +46,7 @@ export class UserImplement extends AggregateRoot implements User {
   private profileCreatedAt: Date = new Date()
   private profileUpdatedAt: Date = new Date()
 
-  constructor(properties: UserRequireProperties & UserOptionalProperties) {
+  constructor(properties) {
     super()
 
     this.id = properties.id
@@ -55,12 +55,12 @@ export class UserImplement extends AggregateRoot implements User {
     this.createdAt = properties.createdAt
     this.updatedAt = properties.updatedAt
 
-    this.profileId = properties.profile.id
-    this.nickname = properties.profile.nickname
-    this.thumbnail = properties.profile.thumbnail
-    this.about = properties.profile.about
-    this.profileCreatedAt = properties.profile.createdAt
-    this.profileUpdatedAt = properties.profile.updatedAt
+    this.profileId = properties.profileId
+    this.nickname = properties.nickname
+    this.thumbnail = properties.thumbnail
+    this.about = properties.about
+    this.profileCreatedAt = properties.profileCreatedAt
+    this.profileUpdatedAt = properties.profileUpdatedAt
   }
 
   setProfile(properties: UserProfileRequireProperties & UserProfileOptionalProperties) {
