@@ -5,6 +5,8 @@ export type UserProfileRequireProperties = Required<{
 }>
 
 export type UserProfileOptionalProperties = Partial<{
+  readonly userId: string
+  readonly user: UserProperties | null
   readonly nickname: string
   readonly thumbnail: string
   readonly about: string
@@ -46,7 +48,7 @@ export class UserImplement extends AggregateRoot implements User {
   private profileCreatedAt: Date = new Date()
   private profileUpdatedAt: Date = new Date()
 
-  constructor(properties) {
+  constructor(properties: UserRequireProperties & UserOptionalProperties) {
     super()
 
     this.id = properties.id
@@ -54,13 +56,6 @@ export class UserImplement extends AggregateRoot implements User {
     this.username = properties.username
     this.createdAt = properties.createdAt
     this.updatedAt = properties.updatedAt
-
-    this.profileId = properties.profileId
-    this.nickname = properties.nickname
-    this.thumbnail = properties.thumbnail
-    this.about = properties.about
-    this.profileCreatedAt = properties.profileCreatedAt
-    this.profileUpdatedAt = properties.profileUpdatedAt
   }
 
   setProfile(properties: UserProfileRequireProperties & UserProfileOptionalProperties) {
@@ -72,13 +67,15 @@ export class UserImplement extends AggregateRoot implements User {
     this.profileUpdatedAt = properties.updatedAt
   }
 
-  properties(): UserProperties {
+  properties(): UserRequireProperties & Required<UserOptionalProperties> {
     return {
       id: this.id,
       email: this.email,
       username: this.username,
       profile: {
         id: this.profileId,
+        userId: this.id,
+        user: null,
         nickname: this.nickname,
         thumbnail: this.thumbnail,
         about: this.about,

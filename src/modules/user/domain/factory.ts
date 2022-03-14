@@ -16,7 +16,7 @@ export class UserFactory {
     about,
   }: {
     id: string
-    profileId?: string
+    profileId: string
     username: string
     email: string
     nickname: string
