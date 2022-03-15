@@ -1,4 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs'
+import * as bcrypt from 'bcrypt'
 
 export type UserProfileRequireProperties = Required<{
   readonly id: string
@@ -22,6 +23,7 @@ export type UserRequireProperties = Required<{
 }>
 
 export type UserOptionalProperties = Partial<{
+  readonly password: string
   readonly username: string
   readonly profile: UserProfileProperties
   readonly createdAt: Date
@@ -32,12 +34,14 @@ export type UserProperties = UserRequireProperties & Required<UserOptionalProper
 
 export interface User {
   properties: () => UserProperties
+  setPassword: (password: string) => void
 }
 
 export class UserImplement extends AggregateRoot implements User {
   private readonly id: string
   private readonly email: string
   private username = ''
+  private password = ''
   private createdAt: Date = new Date()
   private updatedAt: Date = new Date()
 
@@ -50,12 +54,7 @@ export class UserImplement extends AggregateRoot implements User {
 
   constructor(properties: UserRequireProperties & UserOptionalProperties) {
     super()
-
-    this.id = properties.id
-    this.email = properties.email
-    this.username = properties.username
-    this.createdAt = properties.createdAt
-    this.updatedAt = properties.updatedAt
+    Object.assign(this, properties)
   }
 
   setProfile(properties: UserProfileRequireProperties & UserProfileOptionalProperties) {
@@ -72,6 +71,7 @@ export class UserImplement extends AggregateRoot implements User {
       id: this.id,
       email: this.email,
       username: this.username,
+      password: this.password,
       profile: {
         id: this.profileId,
         userId: this.id,
@@ -85,5 +85,9 @@ export class UserImplement extends AggregateRoot implements User {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     }
+  }
+
+  setPassword(password: string): void {
+    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync())
   }
 }
