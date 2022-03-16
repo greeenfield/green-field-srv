@@ -35,22 +35,23 @@ export type UserProperties = UserRequireProperties & Required<UserOptionalProper
 export interface User {
   properties: () => UserProperties
   setPassword: (password: string) => void
+  comparePassword: (password: string) => boolean
 }
 
 export class UserImplement extends AggregateRoot implements User {
   private readonly id: string
   private readonly email: string
-  private username = ''
-  private password = ''
+  private username: string
+  private password: string
   private createdAt: Date = new Date()
   private updatedAt: Date = new Date()
 
   private profileId: string
-  private nickname = ''
-  private thumbnail = ''
-  private about = ''
-  private profileCreatedAt: Date = new Date()
-  private profileUpdatedAt: Date = new Date()
+  private nickname: string
+  private thumbnail: string
+  private about: string
+  private profileCreatedAt: Date
+  private profileUpdatedAt: Date
 
   constructor(properties: UserRequireProperties & UserOptionalProperties) {
     super()
@@ -62,8 +63,8 @@ export class UserImplement extends AggregateRoot implements User {
     this.nickname = properties.nickname
     this.thumbnail = properties.thumbnail
     this.about = properties.about
-    this.profileCreatedAt = properties.createdAt
-    this.profileUpdatedAt = properties.updatedAt
+    this.profileCreatedAt = properties.createdAt || new Date()
+    this.profileUpdatedAt = properties.updatedAt || new Date()
   }
 
   properties(): UserRequireProperties & Required<UserOptionalProperties> {
@@ -89,5 +90,11 @@ export class UserImplement extends AggregateRoot implements User {
 
   setPassword(password: string): void {
     this.password = bcrypt.hashSync(password, bcrypt.genSaltSync())
+  }
+
+  comparePassword(password: string): boolean {
+    const hashed = bcrypt.hashSync(password, bcrypt.genSaltSync())
+
+    return bcrypt.compareSync(hashed, this.password)
   }
 }

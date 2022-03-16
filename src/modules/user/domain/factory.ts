@@ -15,13 +15,13 @@ export class UserFactory {
     thumbnail,
     about,
   }: {
-    id: string
-    profileId: string
-    username: string
+    id?: string
+    profileId?: string
+    username?: string
     email: string
-    nickname: string
-    thumbnail: string
-    about: string
+    nickname?: string
+    thumbnail?: string
+    about?: string
   }): User {
     const user = new UserImplement({ id, email, username })
     user.setProfile({ id: profileId, nickname, about, thumbnail })

@@ -18,8 +18,18 @@ export class UserRepositoryImplement implements UserRepository {
     await getRepository(UserEntity).save(this.modelToEntity(data))
   }
 
+  async findByEmail(email: string): Promise<User> {
+    const userEntitiy = await getRepository(UserEntity).findOne({ where: { email } })
+
+    return this.entityToModel(userEntitiy)
+  }
+
   private modelToEntity(model: User): UserEntity {
     return model.properties()
+  }
+
+  private entityToModel(entity: UserEntity): User {
+    return this.userFactory.reconstitute(entity)
   }
 
   // async findById(id: string): Promise<User> {
@@ -27,10 +37,6 @@ export class UserRepositoryImplement implements UserRepository {
   // }
 
   // async findByNickname(nickname: string): Promise<User> {
-  //   return
-  // }
-
-  // async findByEmail(email: string): Promise<User> {
   //   return
   // }
 }

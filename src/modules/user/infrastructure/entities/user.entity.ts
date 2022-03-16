@@ -14,6 +14,6 @@ export class UserEntity extends BaseEntity {
   @Column({ length: 255, type: 'varchar', default: '' })
   email: string
 
-  @Column({ length: 30, type: 'varchar', default: '' })
+  @Column({ type: 'varchar', default: '' })
   password: string
 }
