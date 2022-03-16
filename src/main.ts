@@ -11,9 +11,9 @@ async function bootstrap(): Promise<void> {
 
   const app = await NestFactory.create(AppModule)
 
-  app.use(bodyParser.json())
-
   const configService = app.get(ConfigService)
+
+  app.use(bodyParser.json())
 
   await app.listen(configService.get<string>('PORT'))
 }

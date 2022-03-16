@@ -5,16 +5,14 @@ import { injectionToken } from '#shared/injection-token'
 
 import { LoginCommand } from '#modules/auth/application/commands/implement/login.command'
 import { UserRepository } from '#modules/user/domain/repository'
-import { UserFactory } from '#modules/user/domain/factory'
+
+import { User } from '#modules/user/domain/user'
 
 @CommandHandler(LoginCommand)
-export class LoginHandler implements ICommandHandler<LoginCommand, void> {
-  constructor(
-    private readonly userFactory: UserFactory,
-    @Inject(injectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository,
-  ) {}
+export class LoginHandler implements ICommandHandler<LoginCommand, User> {
+  constructor(@Inject(injectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository) {}
 
-  async execute(command: LoginCommand): Promise<void> {
+  async execute(command: LoginCommand): Promise<User> {
     const { email, password } = command
 
     const user = await this.userRepository.findByEmail(email)
@@ -26,5 +24,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand, void> {
     if (!user.comparePassword(password)) {
       console.log('!user.comparePassword(password)')
     }
+
+    return user
   }
 }
