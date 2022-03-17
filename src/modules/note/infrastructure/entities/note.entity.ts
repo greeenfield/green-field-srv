@@ -1,15 +1,15 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
 
-import { BaseDate } from './baseDate.entity'
-import { User } from '../../../user/infrastructure/entities/user.entity'
-import { NoteMeta } from './noteMeta.entity'
-import { Tag } from './tag.entity'
+import { BaseEntity } from '#shared/entity/base.entity'
+import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
+import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity()
-export class Note extends BaseDate {
-  @OneToOne(() => User)
+export class Note extends BaseEntity {
+  @OneToOne(() => UserEntity)
   @JoinColumn()
-  user: User
+  user: UserEntity
 
   @OneToMany(() => NoteMeta, (noteMeta) => noteMeta.note)
   @JoinColumn()

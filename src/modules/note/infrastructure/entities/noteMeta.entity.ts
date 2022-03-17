@@ -1,11 +1,11 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 
-import { BaseDate } from './baseDate.entity'
-import { Note } from './note.entity'
+import { BaseEntity } from '#shared/entity/base.entity'
+import { Note } from '#modules/note/infrastructure/entities/note.entity'
 
 @Entity()
-export class NoteMeta extends BaseDate {
-  @OneToOne(() => Note, (note) => note.noteMeta)
+export class NoteMeta extends BaseEntity {
+  @OneToOne(() => Note, (note) => note.noteMetas)
   @JoinColumn()
   note: Note
 

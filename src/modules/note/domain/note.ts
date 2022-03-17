@@ -1,13 +1,14 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { Tag } from '../infrastructure/entities/tag.entity'
-import { User } from '../../user/infrastructure/entities/user.entity'
-import { NoteMeta } from '../infrastructure/entities/noteMeta.entity'
+import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
+import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
+
+// import { User } from '#modules/user/infrastructure/entities/user.entity'
 
 export type NoteRequireProperties = Required<{
   readonly id: string
-  readonly user: User
 }>
+// readonly user: User
 
 export type NoteOptionalProperties = Partial<{
   readonly title: string
@@ -31,7 +32,7 @@ export interface Note {
 
 export class NoteImplement extends AggregateRoot implements Note {
   private readonly id: string
-  private readonly user: User
+  // private readonly user: User
   private readonly title: string = ''
   private readonly body: string = ''
   private readonly isTemp: boolean = false
@@ -51,7 +52,7 @@ export class NoteImplement extends AggregateRoot implements Note {
   properties(): NoteProperties {
     return {
       id: this.id,
-      user: this.user,
+      // user: this.user,
       title: this.title,
       body: this.body,
       isTemp: this.isTemp,

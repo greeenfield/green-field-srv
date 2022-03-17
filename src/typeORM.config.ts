@@ -13,12 +13,8 @@ export const getTypeOrmModule = () => {
     username,
     password,
     database: name,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
     entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+    synchronize: true,
     autoLoadEntities: true,
     keepConnectionAlive: true,
     namingStrategy: new SnakeNamingStrategy(),

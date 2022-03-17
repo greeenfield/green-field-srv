@@ -15,9 +15,8 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
   ) {}
 
   async execute(command: CreateNoteCommand): Promise<void> {
-    const user = await this.userRepository.findById(command.userId)
-    const note = this.noteFactory.create(this.noteRepository.generateId(), user)
-
-    return await this.noteRepository.save(note)
+    // const user = await this.userRepository.findById(command.userId)
+    // const note = this.noteFactory.create(this.noteRepository.generateId(), user)
+    // return await this.noteRepository.save(note)
   }
 }

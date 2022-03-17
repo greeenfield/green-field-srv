@@ -11,7 +11,8 @@ export class UserController {
 
   @Post()
   async CreateUser(@Body() body: CreateUserDTO): Promise<void> {
-    const command = new CreateUserCommand(body.username)
-    return this.commandBus.execute(command)
+    const { username, email, nickname, thumbnail, about, password } = body
+
+    return this.commandBus.execute(new CreateUserCommand(username, email, nickname, thumbnail, about, password))
   }
 }
