@@ -8,6 +8,7 @@ import { UserRepositoryImplement } from '#modules/user/infrastructure/repositori
 import { UserFactory } from '#modules/user/domain/factory'
 
 import { LoginHandler } from '#modules/auth/application/commands/handler/login.handler'
+import { LogoutHandler } from '#modules/auth/application/commands/handler/logout.handler'
 import { AuthController } from '#modules/auth/interface/auth.controller'
 import { LocalStrategy } from '#modules/auth/local.strategy'
 import { AuthSerializer } from '#modules/auth/serialization.provider'
@@ -19,7 +20,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [LoginHandler]
+const application = [LoginHandler, LogoutHandler]
 
 const domain: Provider[] = [UserFactory]
 

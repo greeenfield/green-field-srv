@@ -3,7 +3,7 @@ import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
 import { LogoutCommand } from '#modules/auth/application/commands/implement/logout.command'
 
 @CommandHandler(LogoutCommand)
-export class LoginHandler implements ICommandHandler<LogoutCommand, void> {
+export class LogoutHandler implements ICommandHandler<LogoutCommand, void> {
   async execute(command: LogoutCommand): Promise<void> {
     const { request, response } = command
 
