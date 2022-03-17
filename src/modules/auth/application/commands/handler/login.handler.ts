@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
-import { Inject } from '@nestjs/common'
+import { ForbiddenException, Inject } from '@nestjs/common'
 
 import { injectionToken } from '#shared/injection-token'
 
@@ -17,12 +17,8 @@ export class LoginHandler implements ICommandHandler<LoginCommand, User> {
 
     const user = await this.userRepository.findByEmail(email)
 
-    if (!user) {
-      console.log('!user')
-    }
-
-    if (!user.comparePassword(password)) {
-      console.log('!user.comparePassword(password)')
+    if (!user || !user.comparePassword(password)) {
+      throw new ForbiddenException('Incorrect email or password.')
     }
 
     return user

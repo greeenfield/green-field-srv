@@ -1,7 +1,6 @@
-import { Req, Body, Controller, Post, UseGuards } from '@nestjs/common'
+import { Req, Controller, Post, UseGuards } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 
-import { LoginDTO } from '#modules/auth/interface/dto/login.body.dto'
 import { LocalGuard } from '#modules/auth/local.guard'
 
 @Controller('auth')
@@ -10,7 +9,7 @@ export class AuthController {
 
   @UseGuards(LocalGuard)
   @Post('login')
-  async login(@Req() req, @Body() body: LoginDTO): Promise<void> {
+  async login(@Req() req): Promise<void> {
     return req.session
   }
 }

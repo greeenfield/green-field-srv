@@ -93,8 +93,6 @@ export class UserImplement extends AggregateRoot implements User {
   }
 
   comparePassword(password: string): boolean {
-    const hashed = bcrypt.hashSync(password, bcrypt.genSaltSync())
-
-    return bcrypt.compareSync(hashed, this.password)
+    return bcrypt.compareSync(password, this.password)
   }
 }

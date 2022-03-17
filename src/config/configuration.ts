@@ -1,4 +1,13 @@
-export const RequiredEnv = ['PORT', 'DB_NAME', 'DB_HOST', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'REDIS_URL']
+export const RequiredEnv = [
+  'PORT',
+  'DB_NAME',
+  'DB_HOST',
+  'DB_PORT',
+  'DB_USERNAME',
+  'DB_PASSWORD',
+  'REDIS_URL',
+  'SESSION_SECRET',
+]
 
 interface Configuration {
   databaseConfig: {
@@ -10,6 +19,9 @@ interface Configuration {
   }
   redisConfig: {
     url: string
+  }
+  sessionConfig: {
+    session_secret: string
   }
 }
 
@@ -24,6 +36,9 @@ export const configuration = (): Configuration => {
     },
     redisConfig: {
       url: process.env.REDIS_URL as string,
+    },
+    sessionConfig: {
+      session_secret: process.env.SESSION_SECRET as string,
     },
   }
 }

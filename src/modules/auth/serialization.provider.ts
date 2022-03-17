@@ -3,6 +3,7 @@ import { PassportSerializer } from '@nestjs/passport'
 
 import { injectionToken } from '#shared/injection-token'
 import { UserRepository } from '#modules/user/domain/repository'
+import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 
 @Injectable()
 export class AuthSerializer extends PassportSerializer {
@@ -10,11 +11,13 @@ export class AuthSerializer extends PassportSerializer {
     super()
   }
 
-  serializeUser(user: any, done: (err, user) => void) {
-    done(null, user)
+  serializeUser(user: UserEntity, done: (err: Error, userId: string) => void) {
+    done(null, user.id)
   }
 
-  deserializeUser(payload: any, done: (err, user) => void) {
-    done(null, payload)
+  async deserializeUser(userId: any, done: (err: Error, user: UserEntity) => void) {
+    const user = await this.userRepository.findById(userId)
+
+    done(null, user.properties())
   }
 }

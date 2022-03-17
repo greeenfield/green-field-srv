@@ -24,6 +24,18 @@ export class UserRepositoryImplement implements UserRepository {
     return this.entityToModel(userEntitiy)
   }
 
+  async findById(id: string): Promise<User> {
+    const userEntitiy = await getRepository(UserEntity).findOne(id)
+
+    return this.entityToModel(userEntitiy)
+  }
+
+  async findAll(): Promise<User[]> {
+    const entityList = await getRepository(UserEntity).find()
+
+    return entityList.map((entity) => this.entityToModel(entity))
+  }
+
   private modelToEntity(model: User): UserEntity {
     return model.properties()
   }
@@ -31,12 +43,4 @@ export class UserRepositoryImplement implements UserRepository {
   private entityToModel(entity: UserEntity): User {
     return this.userFactory.reconstitute(entity)
   }
-
-  // async findById(id: string): Promise<User> {
-  //   return
-  // }
-
-  // async findByNickname(nickname: string): Promise<User> {
-  //   return
-  // }
 }

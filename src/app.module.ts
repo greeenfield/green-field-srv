@@ -3,10 +3,9 @@ import { ConfigModule } from '@nestjs/config'
 
 import connectRedis from 'connect-redis'
 import session from 'express-session'
-import * as passport from 'passport'
-import { RedisClientType } from 'redis'
+import passport from 'passport'
 
-// import { AuthModule } from '#modules/auth/auth.module'
+import { AuthModule } from '#modules/auth/auth.module'
 import { UserModule } from '#modules/user/user.module'
 import { NoteModule } from '#modules/note/note.module'
 
@@ -24,7 +23,7 @@ const getConfigModule = () => {
 }
 
 @Module({
-  imports: [getConfigModule(), getTypeOrmModule(), RedisModule, UserModule, NoteModule],
+  imports: [getConfigModule(), getTypeOrmModule(), RedisModule, AuthModule, UserModule, NoteModule],
   providers: [AppService, Logger],
 })
 export class AppModule implements NestModule {
@@ -34,7 +33,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(
         session({
-          secret: '',
+          secret: process.env.SESSION_SECRET,
           store: new (connectRedis(session))({ client: this.redis, logErrors: true }),
           resave: false,
           saveUninitialized: false,

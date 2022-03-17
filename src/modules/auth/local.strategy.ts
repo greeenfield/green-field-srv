@@ -20,4 +20,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     return user
   }
+
+  handleRequest(err, user) {
+    if (err || !user) {
+      throw err || new UnauthorizedException()
+    }
+    return user
+  }
 }

@@ -7,7 +7,13 @@ import { REDIS } from './redis.constants'
   providers: [
     {
       provide: REDIS,
-      useValue: Redis.createClient({ url: process.env.REDIS_URL }),
+      useFactory: async () => {
+        const client = Redis.createClient({ url: process.env.REDIS_URL })
+
+        await client.connect()
+
+        return client
+      },
     },
   ],
   exports: [REDIS],
