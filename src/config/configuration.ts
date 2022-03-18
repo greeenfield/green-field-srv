@@ -10,7 +10,7 @@ export const RequiredEnv = [
 ]
 
 interface Configuration {
-  databaseConfig: {
+  postgresConfig: {
     name: string
     host: string
     port: string
@@ -23,11 +23,17 @@ interface Configuration {
   sessionConfig: {
     session_secret: string
   }
+  nodeMailerConfig: {
+    user: string
+    pass: string
+    service: string
+    from: string
+  }
 }
 
 export const configuration = (): Configuration => {
   return {
-    databaseConfig: {
+    postgresConfig: {
       name: process.env.DB_NAME as string,
       host: process.env.DB_HOST as string,
       port: process.env.DB_PORT as string,
@@ -39,6 +45,12 @@ export const configuration = (): Configuration => {
     },
     sessionConfig: {
       session_secret: process.env.SESSION_SECRET as string,
+    },
+    nodeMailerConfig: {
+      user: process.env.NODE_MAILER_USER,
+      pass: process.env.NODE_MAILER_PASS,
+      service: process.env.NODE_MAILER_SERVICE,
+      from: process.env.NODE_MAILER_FROM,
     },
   }
 }
