@@ -1,5 +1,5 @@
 import { NodeMailerAdapter } from '#shared/utils/mailer/nodeMailer.adapter'
-import { IMailerService } from './mailer.interface'
+import { IMailerService } from '#shared/utils/mailer/mailer.interface'
 
 export class MailerService implements IMailerService {
   constructor(private readonly nodeMailerAdapter: NodeMailerAdapter) {}

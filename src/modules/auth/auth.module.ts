@@ -13,6 +13,8 @@ import { AuthController } from '#modules/auth/interface/auth.controller'
 import { LocalStrategy } from '#modules/auth/local.strategy'
 import { AuthSerializer } from '#modules/auth/serialization.provider'
 
+import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
+
 const infrastructure: Provider[] = [
   {
     provide: injectionToken.USER_REPOSITORY,
@@ -22,7 +24,7 @@ const infrastructure: Provider[] = [
 
 const application = [LoginHandler, LogoutHandler]
 
-const domain: Provider[] = [UserFactory]
+const domain: Provider[] = [UserFactory, MailerFactory]
 
 @Module({
   imports: [CqrsModule, PassportModule.register({ session: true })],

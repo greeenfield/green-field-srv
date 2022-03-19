@@ -29,8 +29,10 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand, voi
       about,
     })
 
-    user.setPassword(password)
+    user.create(password)
 
     await this.userRepository.save(user)
+
+    user.commit()
   }
 }
