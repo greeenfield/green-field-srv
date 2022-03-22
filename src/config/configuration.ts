@@ -7,6 +7,7 @@ export const RequiredEnv = [
   'DB_PASSWORD',
   'REDIS_URL',
   'SESSION_SECRET',
+  'JWT_SECRET',
 ]
 
 interface Configuration {
@@ -28,6 +29,9 @@ interface Configuration {
     pass: string
     service: string
     from: string
+  }
+  jwtConfig: {
+    jwt_secret_key: string
   }
 }
 
@@ -51,6 +55,9 @@ export const configuration = (): Configuration => {
       pass: process.env.NODE_MAILER_PASS,
       service: process.env.NODE_MAILER_SERVICE,
       from: process.env.NODE_MAILER_FROM,
+    },
+    jwtConfig: {
+      jwt_secret_key: process.env.JWT_SECRET_KEY,
     },
   }
 }

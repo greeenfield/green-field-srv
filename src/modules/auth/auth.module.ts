@@ -10,6 +10,7 @@ import { UserFactory } from '#modules/user/domain/factory'
 import { LoginHandler } from '#modules/auth/application/commands/handler/login.handler'
 import { LogoutHandler } from '#modules/auth/application/commands/handler/logout.handler'
 import { AuthController } from '#modules/auth/interface/auth.controller'
+import { AuthTokenRepositoryImplement } from '#modules/auth/infrastructure/repositories/authToken.repository'
 import { LocalStrategy } from '#modules/auth/local.strategy'
 import { AuthSerializer } from '#modules/auth/serialization.provider'
 
@@ -19,6 +20,10 @@ const infrastructure: Provider[] = [
   {
     provide: injectionToken.USER_REPOSITORY,
     useClass: UserRepositoryImplement,
+  },
+  {
+    provide: injectionToken.AUTH_TOKEN_REPOSITORY,
+    useClass: AuthTokenRepositoryImplement,
   },
 ]
 

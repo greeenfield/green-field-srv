@@ -8,12 +8,12 @@ export class NodeMailerAdapter {
     private readonly from: string,
   ) {}
 
-  async send(to: string, subject: string, text: string): Promise<void> {
+  async send(to: string, subject: string, html: string): Promise<void> {
     const transport = nodeMailer.createTransport({
       service: this.service,
       auth: { user: this.user, pass: this.pass },
     })
 
-    await transport.sendMail({ to, subject, text, from: this.from })
+    await transport.sendMail({ to, subject, html, from: this.from })
   }
 }

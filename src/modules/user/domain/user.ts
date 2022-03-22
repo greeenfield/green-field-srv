@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 import * as bcrypt from 'bcrypt'
-import { UserCreatedEvent } from './events/user-created.event'
+
+import { UserCreatedEvent } from '#modules/user/domain/events/user-created.event'
 
 export type UserProfileRequireProperties = Required<{
   readonly id: string
