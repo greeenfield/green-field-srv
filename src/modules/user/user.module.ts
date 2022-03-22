@@ -14,6 +14,7 @@ import { UserController } from '#modules/user/interface/user.controller'
 
 import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
 import { UserCreatedHandler } from './application/events/user-created.handler'
+import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
 
 const infrastructure: Provider[] = [
   {
@@ -24,7 +25,7 @@ const infrastructure: Provider[] = [
 
 const application = [CreateUserHandler, UserCreatedHandler]
 
-const domain: Provider[] = [UserFactory, MailerFactory]
+const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory]
 
 @Module({
   imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([UserEntity, UserProfileEntity])],

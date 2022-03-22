@@ -9,12 +9,15 @@ import { UserFactory } from '#modules/user/domain/factory'
 
 import { LoginHandler } from '#modules/auth/application/commands/handler/login.handler'
 import { LogoutHandler } from '#modules/auth/application/commands/handler/logout.handler'
+import { ForgotPasswordHandler } from '#modules/auth/application/commands/handler/forgot-password.handler'
 import { AuthController } from '#modules/auth/interface/auth.controller'
 import { AuthTokenRepositoryImplement } from '#modules/auth/infrastructure/repositories/authToken.repository'
 import { LocalStrategy } from '#modules/auth/local.strategy'
 import { AuthSerializer } from '#modules/auth/serialization.provider'
 
 import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
+import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
+import { TokenFactory } from '#shared/utils/token/token.factory'
 
 const infrastructure: Provider[] = [
   {
@@ -27,9 +30,9 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [LoginHandler, LogoutHandler]
+const application = [LoginHandler, LogoutHandler, ForgotPasswordHandler]
 
-const domain: Provider[] = [UserFactory, MailerFactory]
+const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory, TokenFactory]
 
 @Module({
   imports: [CqrsModule, PassportModule.register({ session: true })],

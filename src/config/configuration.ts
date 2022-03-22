@@ -7,7 +7,7 @@ export const RequiredEnv = [
   'DB_PASSWORD',
   'REDIS_URL',
   'SESSION_SECRET',
-  'JWT_SECRET',
+  'JWT_SECRET_KEY',
 ]
 
 interface Configuration {
