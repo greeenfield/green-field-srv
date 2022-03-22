@@ -4,6 +4,7 @@ import { UserCreatedEvent } from '#modules/user/domain/events/user-created.event
 import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
 import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
 import { TemplateType } from '#shared/utils/htmlTemplate/htmlTemplate.interface'
+import { EmailTemplateSubject } from '#shared/enum/emailSubject'
 
 @EventsHandler(UserCreatedEvent)
 export class UserCreatedHandler implements IEventHandler {
@@ -17,6 +18,6 @@ export class UserCreatedHandler implements IEventHandler {
 
     const html = await this.htmlTemplateFactory.create(TemplateType.SIGN_UP).html({ username })
 
-    await this.mailerFactory.create().sendMail({ to: email, subject: 'Welcome to Green Field', html })
+    await this.mailerFactory.create().sendMail({ to: email, subject: EmailTemplateSubject[TemplateType.SIGN_UP], html })
   }
 }

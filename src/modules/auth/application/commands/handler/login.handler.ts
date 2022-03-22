@@ -1,7 +1,7 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
 import { ForbiddenException, Inject } from '@nestjs/common'
 
-import { injectionToken } from '#shared/injection-token'
+import { injectionToken } from '#shared/enum/injection-token'
 
 import { LoginCommand } from '#modules/auth/application/commands/implement/login.command'
 import { UserRepository } from '#modules/user/domain/repository'

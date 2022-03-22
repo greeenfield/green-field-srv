@@ -1,19 +1,17 @@
 export enum TemplateType {
   SIGN_UP = 'sign-up',
-  RESET_PASSWORD = 'reset-password',
+  FORGOT_PASSWORD = 'forgot_password',
 }
 
-type SignUpTemplateVariables = {
+export type SignUpTemplateVariables = {
   username: string
 }
 
-type ResetPasswordTemplateVariables = {
+export type ForgotPasswordTemplateVariables = {
   username: string
   resetUrl: string
 }
 
-export type TemplateVariables = SignUpTemplateVariables | ResetPasswordTemplateVariables
-
 export interface IHtmlTemplateService {
-  html: (variables: TemplateVariables) => Promise<string>
+  html: (variables: { [k: string]: string }) => Promise<string>
 }

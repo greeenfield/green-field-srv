@@ -8,6 +8,7 @@ export const RequiredEnv = [
   'REDIS_URL',
   'SESSION_SECRET',
   'JWT_SECRET_KEY',
+  'BASE_URL',
 ]
 
 interface Configuration {
@@ -33,6 +34,7 @@ interface Configuration {
   jwtConfig: {
     jwt_secret_key: string
   }
+  baseUrl: string
 }
 
 export const configuration = (): Configuration => {
@@ -59,6 +61,7 @@ export const configuration = (): Configuration => {
     jwtConfig: {
       jwt_secret_key: process.env.JWT_SECRET_KEY,
     },
+    baseUrl: process.env.BASE_URL,
   }
 }
 

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
 
-import { injectionToken } from '#shared/injection-token'
+import { injectionToken } from '#shared/enum/injection-token'
 import { UserRepository } from '#modules/user/domain/repository'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 

@@ -3,7 +3,7 @@ import { Module, Provider } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
 
-import { injectionToken } from '#shared/injection-token'
+import { injectionToken } from '#shared/enum/injection-token'
 
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'

@@ -1,7 +1,7 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
 import { Inject } from '@nestjs/common'
 
-import { injectionToken } from '#shared/injection-token'
+import { injectionToken } from '#shared/enum/injection-token'
 
 import { CreateUserCommand } from '#modules/user/application/commands/implement/create-user.command'
 import { UserRepository } from '#modules/user/domain/repository'

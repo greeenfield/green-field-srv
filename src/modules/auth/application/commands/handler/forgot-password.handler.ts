@@ -1,17 +1,21 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
 import { ForbiddenException, Inject } from '@nestjs/common'
 
-import { injectionToken } from '#shared/injection-token'
-import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
-
 import { ForgotPasswordCommand } from '#modules/auth/application/commands/implement/forgot-password.command'
 import { AuthTokenEntity } from '#modules/auth/infrastructure/entities/AuthToken.entity'
 import { UserRepository } from '#modules/user/domain/repository'
 import { AuthTokenRepository } from '#modules/auth/domain/repository'
 
+import { configuration } from '#config/configuration'
+
+import { injectionToken } from '#shared/enum/injection-token'
+import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
 import { TokenFactory } from '#shared/utils/token/token.factory'
 import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
 import { TemplateType } from '#shared/utils/htmlTemplate/htmlTemplate.interface'
+import { Url } from '#shared/utils/snippets/urlGenerator'
+import { Path } from '#shared/enum/path'
+import { EmailTemplateSubject } from '#shared/enum/emailSubject'
 
 @CommandHandler(ForgotPasswordCommand)
 export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordCommand, void> {
@@ -32,23 +36,23 @@ export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordComm
       throw new ForbiddenException('Incorrect email.')
     }
 
+    const { id: userId, username } = user.properties()
+
     const authToken = new AuthTokenEntity()
-    authToken.userId = user.properties().id
+    authToken.userId = userId
 
-    const token = await this.tokenFactory
-      .create()
-      .generate({ userId: user.properties().id, tokenId: authToken.id }, { expiresIn: '1h' })
+    const token = await this.tokenFactory.create().generate({ userId, tokenId: authToken.id }, { expiresIn: '1h' })
 
-    const html = await this.htmlTemplateFactory.create(TemplateType.RESET_PASSWORD).html({
-      username: user.properties().username,
-      resetUrl: `http://localhost:3000/auth/reset-password?token=${token}`,
+    const html = await this.htmlTemplateFactory.create(TemplateType.FORGOT_PASSWORD).html({
+      username,
+      resetUrl: new Url(`${configuration().baseUrl}/${Path.AUTH_FORGOT_PASSWORD}`).append({ token }).generate(),
     })
 
     await Promise.all([
       this.authTokenRepository.save(authToken),
       this.mailerFactory.create().sendMail({
         to: email,
-        subject: 'Forget Password Email',
+        subject: EmailTemplateSubject[TemplateType.FORGOT_PASSWORD],
         html,
       }),
     ])
