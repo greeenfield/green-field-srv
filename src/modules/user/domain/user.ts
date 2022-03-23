@@ -38,6 +38,7 @@ export interface User {
   properties: () => UserProperties
   comparePassword: (password: string) => boolean
   create: (password: string) => void
+  resetPassword: (password: string) => void
   commit: () => void
 }
 
@@ -94,6 +95,12 @@ export class UserImplement extends AggregateRoot implements User {
   create(password: string) {
     this.setPassword(password)
     this.apply(new UserCreatedEvent(this.email, this.username))
+  }
+
+  resetPassword(password: string) {
+    this.setPassword(password)
+    this.updatedAt = new Date()
+    // this.apply(new resetPasswordEvent())
   }
 
   comparePassword(password: string): boolean {

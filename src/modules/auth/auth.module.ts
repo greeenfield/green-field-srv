@@ -11,6 +11,7 @@ import { UserFactory } from '#modules/user/domain/factory'
 import { LoginHandler } from '#modules/auth/application/commands/handler/login.handler'
 import { LogoutHandler } from '#modules/auth/application/commands/handler/logout.handler'
 import { ForgotPasswordHandler } from '#modules/auth/application/commands/handler/forgot-password.handler'
+import { ResetPasswordHandler } from '#modules/auth/application/commands/handler/reset-password.handler'
 import { AuthController } from '#modules/auth/interface/auth.controller'
 import { AuthTokenRepositoryImplement } from '#modules/auth/infrastructure/repositories/authToken.repository'
 import { LocalStrategy } from '#modules/auth/local.strategy'
@@ -31,7 +32,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [LoginHandler, LogoutHandler, ForgotPasswordHandler]
+const application = [LoginHandler, LogoutHandler, ForgotPasswordHandler, ResetPasswordHandler]
 
 const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory, TokenFactory]
 

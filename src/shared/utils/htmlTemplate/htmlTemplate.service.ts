@@ -11,7 +11,6 @@ import {
 class HtmlTemplateService {
   protected async getRenderTemplate(filePath: string, variables): Promise<string> {
     const htmlTemplate = await fs.readFile(path.join(__dirname, `/public/${filePath}.template.mustache`))
-
     return mustache.render(htmlTemplate.toString(), variables)
   }
 }

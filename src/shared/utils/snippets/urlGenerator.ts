@@ -8,7 +8,7 @@ export class Url {
   }
 
   append(parameters: { [key: string]: string }): this {
-    Object(parameters).entries(([key, val]) => {
+    Object.entries(parameters).forEach(([key, val]) => {
       this.url.searchParams.append(key, val)
     })
 

@@ -16,7 +16,7 @@ export class UserCreatedHandler implements IEventHandler {
   async handle(event: UserCreatedEvent): Promise<void> {
     const { email, username } = event
 
-    const html = await this.htmlTemplateFactory.create(TemplateType.SIGN_UP).html({ username })
+    const html = await this.htmlTemplateFactory.create(TemplateType.SIGN_UP).html({ username, resetUrl: '' })
 
     await this.mailerFactory.create().sendMail({ to: email, subject: EmailTemplateSubject[TemplateType.SIGN_UP], html })
   }

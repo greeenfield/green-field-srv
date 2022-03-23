@@ -1,7 +1,7 @@
 export type GeneratePayload = {
   [key: string]: string | number
   userId?: string | undefined
-  tokenId?: string | undefined
+  authTokenId?: string | undefined
 }
 
 type ExpiresIn = '1h' | '1d'

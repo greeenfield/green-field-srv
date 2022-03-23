@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm'
+import { getRepository, getConnection } from 'typeorm'
 import { Inject } from '@nestjs/common'
 
 import { UserRepository } from '#modules/user/domain/repository'
@@ -16,6 +16,10 @@ export class UserRepositoryImplement implements UserRepository {
 
   async save(data: User): Promise<void> {
     await getRepository(UserEntity).save(this.modelToEntity(data))
+  }
+
+  async updatePassword(id: string, password: string): Promise<void> {
+    await getConnection().createQueryBuilder().update(UserEntity).set({ password }).where('id = :id', { id }).execute()
   }
 
   async findByEmail(email: string): Promise<User> {

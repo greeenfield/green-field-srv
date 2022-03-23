@@ -12,9 +12,9 @@ export class JwtAdapter {
     })
   }
 
-  async verify<T>(token: string): Promise<T> {
+  async verify<Decoded>(token: string): Promise<Decoded> {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, this.secretKey, (error, decoded: T) => {
+      jwt.verify(token, this.secretKey, (error, decoded: Decoded) => {
         if (error) reject(error)
         resolve(decoded)
       })

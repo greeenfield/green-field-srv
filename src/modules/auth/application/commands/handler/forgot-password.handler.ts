@@ -9,13 +9,13 @@ import { AuthTokenRepository } from '#modules/auth/domain/repository'
 import { configuration } from '#config/configuration'
 
 import { injectionToken } from '#shared/enum/injection-token'
+import { EmailTemplateSubject } from '#shared/enum/emailSubject'
+import { Path } from '#shared/enum/path'
 import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
 import { TokenFactory } from '#shared/utils/token/token.factory'
 import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
 import { TemplateType } from '#shared/utils/htmlTemplate/htmlTemplate.interface'
 import { Url } from '#shared/utils/snippets/urlGenerator'
-import { Path } from '#shared/enum/path'
-import { EmailTemplateSubject } from '#shared/enum/emailSubject'
 
 @CommandHandler(ForgotPasswordCommand)
 export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordCommand, void> {
@@ -38,21 +38,25 @@ export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordComm
 
     const { id: userId, username } = user.properties()
 
+    const authTokenId = await this.authTokenRepository.newId()
     const authToken = new AuthTokenEntity()
+    authToken.id = authTokenId
     authToken.userId = userId
 
-    const token = await this.tokenFactory.create().generate({ userId, tokenId: authToken.id }, { expiresIn: '1h' })
+    const token = await this.tokenFactory.create().generate({ userId, authTokenId }, { expiresIn: '1h' })
 
     const html = await this.htmlTemplateFactory.create(TemplateType.FORGOT_PASSWORD).html({
       username,
       resetUrl: new Url(`${configuration().baseUrl}/${Path.AUTH_FORGOT_PASSWORD}`).append({ token }).generate(),
     })
 
+    console.log(token)
+
     await Promise.all([
       this.authTokenRepository.save(authToken),
       this.mailerFactory.create().sendMail({
         to: email,
-        subject: EmailTemplateSubject[TemplateType.FORGOT_PASSWORD],
+        subject: EmailTemplateSubject.FORGOT_PASSWORD,
         html,
       }),
     ])
