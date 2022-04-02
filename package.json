@@ -104,7 +104,10 @@
       "src/modules(|/.*)$": "<rootDir>/modules/$1",
       "^#modules(|/.*)$": "<rootDir>/modules/$1",
       "src/shared(|/.*)$": "<rootDir>/shared/$1",
-      "^#shared(|/.*)$": "<rootDir>/shared/$1"
+      "^#shared(|/.*)$": "<rootDir>/shared/$1",
+      "src/config(|/.*)$": "<rootDir>/config/$1",
+      "^#config(|/.*)$": "<rootDir>/config/$1",
+      "src/app.module": "<rootDir>/app.module"
     }
   }
 }
