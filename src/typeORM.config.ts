@@ -4,7 +4,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 import { configuration } from './config/configuration'
 
 export const getTypeOrmModule = () => {
-  const { name, host, port, username, password } = configuration().databaseConfig
+  const { name, host, port, username, password } = configuration().postgresConfig
 
   return TypeOrmModule.forRoot({
     type: 'postgres',

@@ -1,6 +1,8 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 import * as bcrypt from 'bcrypt'
 
+import { UserCreatedEvent } from '#modules/user/domain/events/user-created.event'
+
 export type UserProfileRequireProperties = Required<{
   readonly id: string
 }>
@@ -34,8 +36,10 @@ export type UserProperties = UserRequireProperties & Required<UserOptionalProper
 
 export interface User {
   properties: () => UserProperties
-  setPassword: (password: string) => void
   comparePassword: (password: string) => boolean
+  create: (password: string) => void
+  resetPassword: (password: string) => void
+  commit: () => void
 }
 
 export class UserImplement extends AggregateRoot implements User {
@@ -88,11 +92,22 @@ export class UserImplement extends AggregateRoot implements User {
     }
   }
 
-  setPassword(password: string): void {
-    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync())
+  create(password: string) {
+    this.setPassword(password)
+    this.apply(new UserCreatedEvent(this.email, this.username))
+  }
+
+  resetPassword(password: string) {
+    this.setPassword(password)
+    this.updatedAt = new Date()
+    // this.apply(new resetPasswordEvent())
   }
 
   comparePassword(password: string): boolean {
     return bcrypt.compareSync(password, this.password)
+  }
+
+  private setPassword(password: string): void {
+    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync())
   }
 }
