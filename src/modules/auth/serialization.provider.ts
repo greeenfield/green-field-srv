@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
 
-import { injectionToken } from '#shared/enum/injection-token'
+import { InjectionToken } from '#shared/enum/injection-token'
 import { UserRepository } from '#modules/user/domain/repository'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 
 @Injectable()
 export class AuthSerializer extends PassportSerializer {
-  constructor(@Inject(injectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository) {
+  constructor(@Inject(InjectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository) {
     super()
   }
 

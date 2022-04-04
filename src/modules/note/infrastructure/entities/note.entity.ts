@@ -7,9 +7,12 @@ import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity({ name: 'note' })
 export class NoteEntity extends BaseEntity {
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
+  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user: UserEntity
+
+  @Column({ type: 'uuid', nullable: true })
+  userId: string
 
   @OneToMany(() => NoteMetaEntity, (noteMeta) => noteMeta.note)
   @JoinColumn()
@@ -26,17 +29,19 @@ export class NoteEntity extends BaseEntity {
     name: 'note_tags',
     joinColumn: {
       name: 'note',
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'tag',
+      referencedColumnName: 'id',
     },
   })
   tags: TagEntity[]
 
-  @Column()
+  @Column({ default: true })
   isTemp: boolean
 
-  @Column()
+  @Column({ default: true })
   isPrivate: boolean
 
   @Column({ default: 0 })

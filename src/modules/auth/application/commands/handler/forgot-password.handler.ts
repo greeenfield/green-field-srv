@@ -8,7 +8,7 @@ import { AuthTokenRepository } from '#modules/auth/domain/repository'
 
 import { configuration } from '#config/configuration'
 
-import { injectionToken } from '#shared/enum/injection-token'
+import { InjectionToken } from '#shared/enum/injection-token'
 import { EmailTemplateSubject } from '#shared/enum/emailSubject'
 import { Path } from '#shared/enum/path'
 import { MailerFactory } from '#shared/utils/mailer/mailer.factory'
@@ -20,8 +20,8 @@ import { Url } from '#shared/utils/snippets/urlGenerator'
 @CommandHandler(ForgotPasswordCommand)
 export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordCommand, void> {
   constructor(
-    @Inject(injectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository,
-    @Inject(injectionToken.AUTH_TOKEN_REPOSITORY) private readonly authTokenRepository: AuthTokenRepository,
+    @Inject(InjectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository,
+    @Inject(InjectionToken.AUTH_TOKEN_REPOSITORY) private readonly authTokenRepository: AuthTokenRepository,
     private readonly mailerFactory: MailerFactory,
     private readonly tokenFactory: TokenFactory,
     private readonly htmlTemplateFactory: HtmlTemplateFactory,

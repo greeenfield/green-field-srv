@@ -3,7 +3,7 @@ import { Module, Provider } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
 
-import { injectionToken } from '#shared/enum/injection-token'
+import { InjectionToken } from '#shared/enum/injection-token'
 
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
@@ -18,7 +18,7 @@ import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.fac
 
 const infrastructure: Provider[] = [
   {
-    provide: injectionToken.USER_REPOSITORY,
+    provide: InjectionToken.USER_REPOSITORY,
     useClass: UserRepositoryImplement,
   },
 ]

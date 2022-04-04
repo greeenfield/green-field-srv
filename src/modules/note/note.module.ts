@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
 
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
-import { InjectionToken } from '#modules/note/application/injection.token'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 
@@ -14,11 +13,18 @@ import { NoteRepositoryImplement } from '#modules/note/infrastructure/repositori
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
+import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
+
+import { InjectionToken } from '#shared/enum/injection-token'
 
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.NOTE_REPOSITORY,
     useClass: NoteRepositoryImplement,
+  },
+  {
+    provide: InjectionToken.USER_REPOSITORY,
+    useClass: UserRepositoryImplement,
   },
 ]
 

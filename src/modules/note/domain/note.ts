@@ -1,7 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
-import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
+import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
 
 // import { User } from '#modules/user/infrastructure/entities/user.entity'
 
@@ -15,8 +15,8 @@ export type NoteOptionalProperties = Partial<{
   readonly body: string
   readonly isTemp: boolean
   readonly isPrivate: boolean
-  readonly noteMetas: NoteMeta[]
-  readonly tags: Tag[]
+  readonly noteMetas: NoteMetaEntity[]
+  readonly tags: TagEntity[]
   readonly likes: number
   readonly createdAt: Date
   readonly updatedAt: Date
@@ -37,8 +37,8 @@ export class NoteImplement extends AggregateRoot implements Note {
   private readonly body: string = ''
   private readonly isTemp: boolean = false
   private readonly isPrivate: boolean = false
-  private readonly noteMetas: NoteMeta[] | null = null
-  private readonly tags: Tag[] | null = null
+  private readonly noteMetas: NoteMetaEntity[] | null = null
+  private readonly tags: TagEntity[] | null = null
   private readonly likes: number = 0
   private readonly createdAt: Date = new Date()
   private readonly updatedAt: Date = new Date()

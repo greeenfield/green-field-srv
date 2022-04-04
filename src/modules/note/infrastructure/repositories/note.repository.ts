@@ -1,12 +1,10 @@
+import { getRepository } from 'typeorm'
 import { NoteRepository } from '#modules/note/domain/repository'
-import { Note } from '#modules/note/domain/note'
+import { NoteEntity } from '../entities/note.entity'
 
 export class NoteRepositoryImplement implements NoteRepository {
-  async findById(id: string): Promise<Note> {
-    return
+  async newId(): Promise<string> {
+    const note = await getRepository(NoteEntity).save(new NoteEntity())
+    return note.id
   }
-
-  generateId
-  findAll
-  save
 }
