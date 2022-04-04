@@ -2,18 +2,18 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne,
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
-import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
+import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
-@Entity()
-export class Note extends BaseEntity {
+@Entity({ name: 'note' })
+export class NoteEntity extends BaseEntity {
   @OneToOne(() => UserEntity)
   @JoinColumn()
   user: UserEntity
 
-  @OneToMany(() => NoteMeta, (noteMeta) => noteMeta.note)
+  @OneToMany(() => NoteMetaEntity, (noteMeta) => noteMeta.note)
   @JoinColumn()
-  noteMetas: NoteMeta[]
+  noteMetas: NoteMetaEntity[]
 
   @Column({ length: 255 })
   title: string
@@ -21,7 +21,7 @@ export class Note extends BaseEntity {
   @Column('text')
   body: string
 
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => TagEntity)
   @JoinTable({
     name: 'note_tags',
     joinColumn: {
@@ -31,7 +31,7 @@ export class Note extends BaseEntity {
       name: 'tag',
     },
   })
-  tags: Tag[]
+  tags: TagEntity[]
 
   @Column()
   isTemp: boolean

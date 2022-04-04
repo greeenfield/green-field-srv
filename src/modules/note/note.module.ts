@@ -11,27 +11,25 @@ import { NoteFactory } from '#modules/note/domain/factory'
 import { NoteController } from '#modules/note/interface/note.controller'
 
 import { NoteRepositoryImplement } from '#modules/note/infrastructure/repositories/note.repository'
-// import { BaseDate } from '#modules/note/infrastructure/entities/baseDate.entity'
-import { Note } from '#modules/note/infrastructure/entities/note.entity'
-import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
-import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
+import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
+import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
-// const infrastructure: Provider[] = [
-//   {
-//     provide: InjectionToken.NOTE_REPOSITORY,
-//     useClass: NoteRepositoryImplement,
-//   },
-// ]
+const infrastructure: Provider[] = [
+  {
+    provide: InjectionToken.NOTE_REPOSITORY,
+    useClass: NoteRepositoryImplement,
+  },
+]
 
-// const application = [CreateNoteHandler]
+const application = [CreateNoteHandler]
 
-// const domain = [NoteFactory]
+const domain = [NoteFactory]
 
-// ...infrastructure, ...application, ...domain
 @Module({
-  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([Note, NoteMeta, Tag])],
+  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, NoteMetaEntity, TagEntity])],
   exports: [TypeOrmModule],
   controllers: [NoteController],
-  providers: [],
+  providers: [...infrastructure, ...application, ...domain],
 })
 export class NoteModule {}

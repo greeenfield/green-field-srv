@@ -2,8 +2,8 @@ import { Column, Entity } from 'typeorm'
 
 import { BaseEntity } from '#shared/entity/base.entity'
 
-@Entity()
-export class Tag extends BaseEntity {
+@Entity({ name: 'tag' })
+export class TagEntity extends BaseEntity {
   @Column({ length: 255 })
   name: string
 
