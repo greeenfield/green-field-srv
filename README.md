@@ -13,8 +13,6 @@
 
 ## Introduction
 
----
-
 <img src="logo.png" width="40%" height="30%" alt="GreenField Logo"></img></br>
 Green Field는 1일 1커밋과 TIL에서 아이디어를 얻은 블로그입니다.</br>
 강의나 글로 공부를 한 뒤, 간단하게 정리하는 요약노트 성격을 가지고있습니다.</br>
@@ -28,9 +26,7 @@ Green Field의 주 목적으로는 자신의 공부 내용을 정리 및 복습�
 
 ## Architecture
 
----
-
-### Presentation
+### Presentation Layer
 
 사용자에게 제공되는 인터페이스를 정의하고 HTTP 요청을 수신하고, 응답을 책임집니다. Controller에 해당하는 역할을 합니다.
 
@@ -53,8 +49,6 @@ Aggregate Root와 Entity로 구성된 모델 내부에 비즈니스 핵심 로�
 
 ## Feature
 
----
-
 - 회원가입, 로그인&로그아웃
 - 비밀번호 재설정
 - 글 작성, 수정, 삭제
@@ -67,8 +61,6 @@ Aggregate Root와 Entity로 구성된 모델 내부에 비즈니스 핵심 로�
 
 ## Installation
 
----
-
 ```bash
 $ npm install
 ```
@@ -76,8 +68,6 @@ $ npm install
 <a name="running-app"></a>
 
 ## Running the app
-
----
 
 ```bash
 # development
@@ -93,8 +83,6 @@ $ npm run start:prod
 <a name="test"></a>
 
 ## Test
-
----
 
 ```bash
 # unit tests
