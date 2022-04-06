@@ -3,14 +3,12 @@ import { AggregateRoot } from '@nestjs/cqrs'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
 
-// import { User } from '#modules/user/infrastructure/entities/user.entity'
-
 export type NoteRequireProperties = Required<{
   readonly id: string
 }>
-// readonly user: User
 
 export type NoteOptionalProperties = Partial<{
+  readonly userId: string
   readonly title: string
   readonly body: string
   readonly isTemp: boolean
@@ -23,7 +21,7 @@ export type NoteOptionalProperties = Partial<{
   readonly releasedAt: Date
 }>
 
-export type NoteProperties = NoteRequireProperties & NoteOptionalProperties
+export type NoteProperties = NoteRequireProperties & Required<NoteOptionalProperties>
 
 export interface Note {
   properties: () => NoteProperties
@@ -32,17 +30,17 @@ export interface Note {
 
 export class NoteImplement extends AggregateRoot implements Note {
   private readonly id: string
-  // private readonly user: User
-  private readonly title: string = ''
-  private readonly body: string = ''
-  private readonly isTemp: boolean = false
-  private readonly isPrivate: boolean = false
-  private readonly noteMetas: NoteMetaEntity[] | null = null
-  private readonly tags: TagEntity[] | null = null
-  private readonly likes: number = 0
-  private readonly createdAt: Date = new Date()
-  private readonly updatedAt: Date = new Date()
-  private readonly releasedAt: Date | null = null
+  private readonly userId: string
+  private title: string
+  private body: string
+  private isTemp: boolean
+  private isPrivate: boolean
+  private noteMetas: NoteMetaEntity[] | null = null
+  private tags: TagEntity[] | null = null
+  private likes: number
+  private createdAt: Date = new Date()
+  private updatedAt: Date = new Date()
+  private releasedAt: Date | null = null
 
   constructor(properties: NoteRequireProperties & NoteOptionalProperties) {
     super()
@@ -52,7 +50,7 @@ export class NoteImplement extends AggregateRoot implements Note {
   properties(): NoteProperties {
     return {
       id: this.id,
-      // user: this.user,
+      userId: this.userId,
       title: this.title,
       body: this.body,
       isTemp: this.isTemp,
