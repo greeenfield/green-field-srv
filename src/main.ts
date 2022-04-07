@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import bodyParser from 'body-parser'
+// import bodyParser from 'body-parser'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 
@@ -13,7 +13,7 @@ async function bootstrap(): Promise<void> {
 
   const configService = app.get(ConfigService)
 
-  app.use(bodyParser.json())
+  // app.use(bodyParser.json())
 
   await app.listen(configService.get<string>('PORT'))
 }
