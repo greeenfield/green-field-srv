@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne,
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/UrlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity({ name: 'note' })
@@ -14,9 +14,8 @@ export class NoteEntity extends BaseEntity {
   @Column({ type: 'uuid', nullable: true })
   userId: string
 
-  @OneToMany(() => NoteMetaEntity, (noteMeta) => noteMeta.note)
-  @JoinColumn()
-  noteMetas: NoteMetaEntity[]
+  @OneToMany(() => UrlMetaEntity, (urlMeta) => urlMeta.note)
+  urlMetas: UrlMetaEntity[]
 
   @Column({ length: 255 })
   title: string
@@ -28,12 +27,10 @@ export class NoteEntity extends BaseEntity {
   @JoinTable({
     name: 'note_tags',
     joinColumn: {
-      name: 'note',
-      referencedColumnName: 'id',
+      name: 'noteId',
     },
     inverseJoinColumn: {
-      name: 'tag',
-      referencedColumnName: 'id',
+      name: 'tagId',
     },
   })
   tags: TagEntity[]

@@ -1,4 +1,6 @@
 import { IsString, IsBoolean, IsJSON, IsArray } from 'class-validator'
+import { Type } from 'class-transformer'
+import { UrlMeta } from '#modules/note/domain/urlMeta'
 
 export class CreateNoteDTO {
   @IsString()
@@ -17,5 +19,6 @@ export class CreateNoteDTO {
   tags: string[]
 
   @IsJSON()
-  meta: JSON
+  @Type(() => UrlMeta)
+  urlMetas: UrlMeta[]
 }

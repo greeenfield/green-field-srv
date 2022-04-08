@@ -1,5 +1,6 @@
 import { Inject } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
+import { plainToInstance } from 'class-transformer'
 
 import { CreateNoteCommand } from '#modules/note/application/commands/implement/create-note.command'
 import { NoteFactory } from '#modules/note/domain/factory'
@@ -16,8 +17,27 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
   ) {}
 
   async execute(command: CreateNoteCommand): Promise<void> {
+    const { userId, title, body, isTemp, isPrivate, tags, urlMetas } = command
+
     const user = await this.userRepository.findById(command.userId)
-    this.noteFactory.create(await this.noteRepository.newId(), user)
-    // return await this.noteRepository.save(note)
+
+    if (!user) {
+      throw new Error('')
+    }
+
+    const model = this.noteFactory.create({
+      id: await this.noteRepository.newId(),
+      userId,
+      title,
+      body,
+      isTemp,
+      isPrivate,
+      tags: await this.noteRepository.findOrCreateTags(tags),
+      urlMetas,
+    })
+
+    const note = model.create()
+
+    return await this.noteRepository.save(note)
   }
 }

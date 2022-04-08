@@ -1,20 +1,20 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
-import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { UrlMeta } from '#modules/note/domain/urlMeta'
+import { Tag } from '#modules/note/domain/tag'
 
-export type NoteRequireProperties = Required<{
+type NoteRequireProperties = Required<{
   readonly id: string
 }>
 
-export type NoteOptionalProperties = Partial<{
+type NoteOptionalProperties = Partial<{
   readonly userId: string
   readonly title: string
   readonly body: string
   readonly isTemp: boolean
   readonly isPrivate: boolean
-  readonly noteMetas: NoteMetaEntity[]
-  readonly tags: TagEntity[]
+  readonly urlMetas: UrlMeta[]
+  readonly tags: Tag[]
   readonly likes: number
   readonly createdAt: Date
   readonly updatedAt: Date
@@ -25,26 +25,28 @@ export type NoteProperties = NoteRequireProperties & Required<NoteOptionalProper
 
 export interface Note {
   properties: () => NoteProperties
-  create: (properties: NoteProperties) => Promise<void>
+  create: () => NoteImplement
+  commit: () => void
 }
 
 export class NoteImplement extends AggregateRoot implements Note {
-  private readonly id: string
-  private readonly userId: string
+  private id: string
+  private userId: string
   private title: string
   private body: string
   private isTemp: boolean
   private isPrivate: boolean
-  private noteMetas: NoteMetaEntity[] | null = null
-  private tags: TagEntity[] | null = null
+  private urlMetas: UrlMeta[] | null
+  private tags: Tag[] | null
   private likes: number
-  private createdAt: Date = new Date()
-  private updatedAt: Date = new Date()
-  private releasedAt: Date | null = null
+  private createdAt: Date
+  private updatedAt: Date
+  private releasedAt: Date
 
   constructor(properties: NoteRequireProperties & NoteOptionalProperties) {
     super()
     Object.assign(this, properties)
+    this.urlMetas = Object.values(properties.urlMetas)
   }
 
   properties(): NoteProperties {
@@ -55,7 +57,7 @@ export class NoteImplement extends AggregateRoot implements Note {
       body: this.body,
       isTemp: this.isTemp,
       isPrivate: this.isPrivate,
-      noteMetas: this.noteMetas,
+      urlMetas: this.urlMetas,
       tags: this.tags,
       likes: this.likes,
       createdAt: this.createdAt,
@@ -64,8 +66,13 @@ export class NoteImplement extends AggregateRoot implements Note {
     }
   }
 
-  async create(properties: NoteProperties): Promise<void> {
-    console.log(properties)
-    return
+  isPublic(): boolean {
+    return this.isTemp === false && this.isPrivate === false
+  }
+
+  create(): NoteImplement {
+    if (this.isPublic()) this.releasedAt = new Date()
+
+    return this
   }
 }

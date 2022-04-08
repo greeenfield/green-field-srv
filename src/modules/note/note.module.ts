@@ -11,7 +11,7 @@ import { NoteController } from '#modules/note/interface/note.controller'
 
 import { NoteRepositoryImplement } from '#modules/note/infrastructure/repositories/note.repository'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
-import { NoteMetaEntity } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/UrlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 
@@ -33,7 +33,7 @@ const application = [CreateNoteHandler]
 const domain = [NoteFactory]
 
 @Module({
-  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, NoteMetaEntity, TagEntity])],
+  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, UrlMetaEntity, TagEntity])],
   exports: [TypeOrmModule],
   controllers: [NoteController],
   providers: [...infrastructure, ...application, ...domain],

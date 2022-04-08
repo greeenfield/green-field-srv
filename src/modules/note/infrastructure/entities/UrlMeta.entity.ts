@@ -1,13 +1,16 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 
-@Entity({ name: 'note_meta' })
-export class NoteMetaEntity extends BaseEntity {
-  @OneToOne(() => NoteEntity, (note) => note.noteMetas)
-  @JoinColumn()
+@Entity({ name: 'url_meta' })
+export class UrlMetaEntity extends BaseEntity {
+  @ManyToOne(() => NoteEntity, (note) => note.urlMetas)
+  @JoinColumn({ name: 'noteId' })
   note: NoteEntity
+
+  @Column('uuid')
+  noteId: string
 
   @Column({ length: 255 })
   url: string

@@ -1,3 +1,4 @@
+import { UrlMeta } from '#modules/note/domain/urlMeta'
 import { ICommand } from '@nestjs/cqrs'
 
 export class CreateNoteCommand implements ICommand {
@@ -8,6 +9,6 @@ export class CreateNoteCommand implements ICommand {
     readonly isTemp: boolean,
     readonly isPrivate: boolean,
     readonly tags: string[],
-    readonly meta: JSON,
+    readonly urlMetas: UrlMeta[],
   ) {}
 }
