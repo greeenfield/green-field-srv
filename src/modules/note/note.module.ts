@@ -12,7 +12,7 @@ import { NoteController } from '#modules/note/interface/note.controller'
 
 import { NoteRepositoryImplement } from '#modules/note/infrastructure/repositories/note.repository'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
-import { UrlMetaEntity } from '#modules/note/infrastructure/entities/UrlMeta.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 

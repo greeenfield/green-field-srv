@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne,
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { UrlMetaEntity } from '#modules/note/infrastructure/entities/UrlMeta.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity({ name: 'note' })
