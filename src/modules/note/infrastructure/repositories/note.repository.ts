@@ -18,7 +18,7 @@ export class NoteRepositoryImplement implements NoteRepository {
   }
 
   async findOrCreateTags(tagNames: string[]): Promise<Tag[]> {
-    return await Promise.all(tagNames.map((name) => getRepository(TagEntity).findOne({ where: { name } })))
+    return await Promise.all(tagNames.map((name) => this.findOrCreateTag(name)))
   }
 
   async findOrCreateTag(tagName: string): Promise<Tag> {

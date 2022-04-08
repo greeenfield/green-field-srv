@@ -16,16 +16,7 @@ export class NoteController {
   async createNote(@UserId() userId: string, @Body() body: CreateNoteDTO) {
     const { title, isTemp, isPrivate, tags, urlMetas } = body
     const command = new CreateNoteCommand(userId, title, body.body, isTemp, isPrivate, tags, urlMetas)
+
     await this.commandBus.execute(command)
   }
 }
-
-// Session {
-//   cookie: {
-//     path: '/',
-//     _expires: 2022-04-04T06:56:45.379Z,
-//     originalMaxAge: 60000,
-//     httpOnly: true
-//   },
-//   passport: { user: 'd0b1a0e5-67bc-42ed-8bef-035a504f3853' }
-// }

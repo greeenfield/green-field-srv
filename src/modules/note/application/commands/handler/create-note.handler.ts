@@ -1,6 +1,5 @@
 import { Inject } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
-import { plainToInstance } from 'class-transformer'
 
 import { CreateNoteCommand } from '#modules/note/application/commands/implement/create-note.command'
 import { NoteFactory } from '#modules/note/domain/factory'
@@ -25,7 +24,7 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
       throw new Error('')
     }
 
-    const model = this.noteFactory.create({
+    const note = this.noteFactory.create({
       id: await this.noteRepository.newId(),
       userId,
       title,
@@ -36,8 +35,6 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
       urlMetas,
     })
 
-    const note = model.create()
-
-    return await this.noteRepository.save(note)
+    return await this.noteRepository.save(note.create())
   }
 }

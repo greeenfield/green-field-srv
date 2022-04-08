@@ -66,7 +66,7 @@ export class NoteImplement extends AggregateRoot implements Note {
     }
   }
 
-  isPublic(): boolean {
+  private isPublic(): boolean {
     return this.isTemp === false && this.isPrivate === false
   }
 

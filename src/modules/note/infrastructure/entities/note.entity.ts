@@ -17,10 +17,10 @@ export class NoteEntity extends BaseEntity {
   @OneToMany(() => UrlMetaEntity, (urlMeta) => urlMeta.note)
   urlMetas: UrlMetaEntity[]
 
-  @Column({ length: 255 })
+  @Column({ length: 255, default: '' })
   title: string
 
-  @Column('text')
+  @Column({ type: 'text', default: '' })
   body: string
 
   @ManyToMany(() => TagEntity)

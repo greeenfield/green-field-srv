@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config'
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
+import { UserFactory } from '#modules/user/domain/factory'
 
 import { NoteController } from '#modules/note/interface/note.controller'
 
@@ -30,7 +31,7 @@ const infrastructure: Provider[] = [
 
 const application = [CreateNoteHandler]
 
-const domain = [NoteFactory]
+const domain = [NoteFactory, UserFactory]
 
 @Module({
   imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, UrlMetaEntity, TagEntity])],
