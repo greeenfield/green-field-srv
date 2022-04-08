@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm'
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
@@ -7,8 +7,8 @@ import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
 @Entity({ name: 'note' })
 export class NoteEntity extends BaseEntity {
-  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userId' })
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity
 
   @Column({ type: 'uuid', nullable: true })
@@ -27,10 +27,12 @@ export class NoteEntity extends BaseEntity {
   @JoinTable({
     name: 'note_tags',
     joinColumn: {
-      name: 'noteId',
+      name: 'note_id',
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'tagId',
+      name: 'tag_id',
+      referencedColumnName: 'id',
     },
   })
   tags: TagEntity[]
@@ -44,6 +46,6 @@ export class NoteEntity extends BaseEntity {
   @Column({ default: 0 })
   likes: number
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   releasedAt: Date
 }

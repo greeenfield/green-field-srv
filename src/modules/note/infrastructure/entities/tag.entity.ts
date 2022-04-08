@@ -5,7 +5,7 @@ import { replaceSpace } from '#shared/utils/snippets/stringValidator'
 
 @Entity({ name: 'tag' })
 export class TagEntity extends BaseEntity {
-  @Column({ length: 255 })
+  @Column({ length: 255, default: '' })
   name: string
 
   @Column({ length: 255, nullable: true, type: 'varchar' })

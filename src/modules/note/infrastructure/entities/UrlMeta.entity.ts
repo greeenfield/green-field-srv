@@ -6,21 +6,21 @@ import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 @Entity({ name: 'url_meta' })
 export class UrlMetaEntity extends BaseEntity {
   @ManyToOne(() => NoteEntity, (note) => note.urlMetas)
-  @JoinColumn({ name: 'noteId' })
+  @JoinColumn({ name: 'note_id' })
   note: NoteEntity
 
-  @Column('uuid')
+  @Column({ type: 'uuid', nullable: true })
   noteId: string
 
   @Column({ length: 255 })
   url: string
 
-  @Column({ length: 255, type: 'varchar' })
+  @Column({ length: 255, type: 'varchar', nullable: true })
   thumbnail: string
 
   @Column({ length: 255 })
   title: string
 
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   description: string
 }

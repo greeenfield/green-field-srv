@@ -6,6 +6,7 @@ import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 import { Note } from '#modules/note/domain/note'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { Tag } from '#modules/note/domain/tag'
+import { UrlMetaEntity } from '../entities/urlMeta.entity'
 
 export class NoteRepositoryImplement implements NoteRepository {
   async newId(): Promise<string> {
@@ -14,7 +15,12 @@ export class NoteRepositoryImplement implements NoteRepository {
   }
 
   async save(note: Note): Promise<void> {
-    await getRepository(NoteEntity).save(this.modelToEntity(note))
+    const urlMetaEntities = plainToInstance(UrlMetaEntity, note.properties().urlMetas)
+
+    const noteEntity = this.modelToEntity(note)
+    noteEntity.urlMetas = urlMetaEntities
+
+    await Promise.all([getRepository(NoteEntity).save(noteEntity), getRepository(UrlMetaEntity).save(urlMetaEntities)])
   }
 
   async findOrCreateTags(tagNames: string[]): Promise<Tag[]> {
