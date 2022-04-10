@@ -1,11 +1,14 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFile } from '@nestjs/common'
+import { Controller, Post, Put, Param, Body, UseInterceptors, UploadedFile } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CommandBus } from '@nestjs/cqrs'
 
 import { Auth } from '#modules/auth/auth.decorator'
 import { CreateNoteCommand } from '#modules/note/application/commands/implement/create-note.command'
 import { UploadImageCommand } from '#modules/note/application/commands/implement/upload-image.command'
+import { UpdateNoteCommand } from '#modules/note/application/commands/implement/update-note.command'
 import { CreateNoteDTO } from '#modules/note/interface/dto/create-note.dto'
+import { UpdateNoteDTO } from '#modules/note/interface/dto/update-note.dto'
+import { UpdateNoteParamDTO } from './dto/update-note.parameter.dto'
 import { UploadImageResponseDTO } from '#modules/note/interface/dto/upload-image.response.dto'
 
 import { UserId } from '#shared/decorator/userId.decorator'
@@ -28,6 +31,24 @@ export class NoteController {
     const { title, isTemp, isPrivate, tags, urlMetas, thumbnail } = body
     const command = new CreateNoteCommand(userId, title, body.body, isTemp, isPrivate, tags, urlMetas, thumbnail)
 
+    await this.commandBus.execute(command)
+  }
+
+  @Put('/:id')
+  async updateNote(@UserId() userId: string, @Param() param: UpdateNoteParamDTO, @Body() body: UpdateNoteDTO) {
+    const { title, isTemp, isPrivate, tags, urlMetas, thumbnail } = body
+
+    const command = new UpdateNoteCommand(
+      param.id,
+      userId,
+      title,
+      body.body,
+      isTemp,
+      isPrivate,
+      tags,
+      urlMetas,
+      thumbnail,
+    )
     await this.commandBus.execute(command)
   }
 }

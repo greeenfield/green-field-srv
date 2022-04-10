@@ -27,6 +27,7 @@ export type NoteProperties = NoteRequireProperties & Required<NoteOptionalProper
 export interface Note {
   properties: () => NoteProperties
   create: () => NoteImplement
+  update: (properties: NoteRequireProperties & NoteOptionalProperties) => NoteImplement
   commit: () => void
 }
 
@@ -75,6 +76,16 @@ export class NoteImplement extends AggregateRoot implements Note {
 
   create(): NoteImplement {
     if (this.isPublic()) this.releasedAt = new Date()
+
+    return this
+  }
+
+  update(properties: NoteRequireProperties & NoteOptionalProperties): NoteImplement {
+    if (this.isPublic()) this.releasedAt = new Date()
+
+    Object.assign(this, properties)
+    this.updatedAt = new Date()
+    this.urlMetas.forEach((urlMeta) => (urlMeta.updatedAt = new Date()))
 
     return this
   }

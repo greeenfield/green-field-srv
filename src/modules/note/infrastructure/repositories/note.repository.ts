@@ -1,14 +1,18 @@
+import { Inject } from '@nestjs/common'
 import { getRepository } from 'typeorm'
 import { plainToInstance } from 'class-transformer'
 
 import { NoteRepository } from '#modules/note/domain/repository'
-import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
+import { NoteFactory } from '#modules/note/domain/factory'
 import { Note } from '#modules/note/domain/note'
-import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { Tag } from '#modules/note/domain/tag'
-import { UrlMetaEntity } from '../entities/urlMeta.entity'
+import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
+import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
 export class NoteRepositoryImplement implements NoteRepository {
+  constructor(@Inject(NoteFactory) private readonly noteFactory: NoteFactory) {}
+
   async newId(): Promise<string> {
     const note = await getRepository(NoteEntity).save(new NoteEntity())
     return note.id
@@ -21,6 +25,22 @@ export class NoteRepositoryImplement implements NoteRepository {
     noteEntity.urlMetas = urlMetaEntities
 
     await Promise.all([getRepository(NoteEntity).save(noteEntity), getRepository(UrlMetaEntity).save(urlMetaEntities)])
+  }
+
+  async findById(id: string): Promise<Note | null> {
+    const noteEntity = await getRepository(NoteEntity).findOne({
+      relations: ['tags'],
+      where: { id: id },
+    })
+
+    const urlMetaEntities = await getRepository(UrlMetaEntity).find({
+      relations: ['note'],
+      where: { noteId: id },
+    })
+
+    noteEntity.urlMetas = urlMetaEntities
+
+    return this.entityToModel(noteEntity)
   }
 
   async findOrCreateTags(tagNames: string[]): Promise<Tag[]> {
@@ -39,5 +59,9 @@ export class NoteRepositoryImplement implements NoteRepository {
 
   private modelToEntity(model: Note): NoteEntity {
     return plainToInstance(NoteEntity, model.properties())
+  }
+
+  private entityToModel(entity: NoteEntity): Note {
+    return this.noteFactory.reconstitute(entity)
   }
 }

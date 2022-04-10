@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
 import { UploadImageHandler } from './application/commands/handler/upload-image.handler'
+import { UpdateNoteHandler } from './application/commands/handler/update-note.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -30,7 +31,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [CreateNoteHandler, UploadImageHandler]
+const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler]
 
 const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 
