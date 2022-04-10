@@ -36,7 +36,7 @@ const application = [CreateNoteHandler, UploadImageHandler]
 const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 
 @Module({
-  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, UrlMetaEntity, TagEntity])],
+  imports: [CqrsModule, TypeOrmModule.forFeature([NoteEntity, UrlMetaEntity, TagEntity])],
   exports: [TypeOrmModule],
   controllers: [NoteController],
   providers: [...infrastructure, ...application, ...domain],

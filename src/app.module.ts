@@ -14,11 +14,13 @@ import { getTypeOrmModule } from './typeORM.config'
 
 import { RedisModule } from '#config/redis/redis.module'
 import { REDIS } from '#config/redis/redis.constants'
+import { configuration } from '#config/configuration'
 
 const getConfigModule = () => {
   return ConfigModule.forRoot({
     isGlobal: true,
-    envFilePath: process.env.NODE_ENV === 'development' ? '.env.development' : '.env.development',
+    envFilePath: process.env.NODE_ENV === 'development' ? '.development.env' : '.development.env',
+    load: [configuration],
   })
 }
 

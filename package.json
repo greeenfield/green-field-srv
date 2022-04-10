@@ -50,6 +50,7 @@
     "connect-redis": "^6.1.2",
     "cross-env": "^7.0.3",
     "express-session": "^1.17.2",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mustache": "^4.2.0",
     "mysql": "^2.14.1",

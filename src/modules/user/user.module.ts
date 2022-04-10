@@ -28,7 +28,7 @@ const application = [CreateUserHandler, UserCreatedHandler]
 const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory]
 
 @Module({
-  imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([UserEntity, UserProfileEntity])],
+  imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserProfileEntity])],
   exports: [TypeOrmModule],
   controllers: [UserController],
   providers: [...infrastructure, ...application, ...domain],

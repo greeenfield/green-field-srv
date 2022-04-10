@@ -37,7 +37,7 @@ const application = [LoginHandler, LogoutHandler, ForgotPasswordHandler, ResetPa
 const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory, TokenFactory]
 
 @Module({
-  imports: [ConfigService, CqrsModule, PassportModule.register({ session: true })],
+  imports: [CqrsModule, PassportModule.register({ session: true })],
   controllers: [AuthController],
   providers: [LocalStrategy, AuthSerializer, ...infrastructure, ...application, ...domain],
 })

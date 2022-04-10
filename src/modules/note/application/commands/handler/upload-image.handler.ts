@@ -9,8 +9,10 @@ export class UploadImageHandler implements ICommandHandler<UploadImageCommand, {
   constructor(private readonly fileUploaderFactory: FileUploaderFactory) {}
 
   async execute(command: UploadImageCommand): Promise<{ location: string }> {
-    const uploadedFile = await this.fileUploaderFactory.create().upload(command.file)
+    const fileUploader = this.fileUploaderFactory.create()
 
-    return { location: uploadedFile.body.location }
+    const uploadedFile = await fileUploader.upload(command.file)
+
+    return { location: uploadedFile.Location }
   }
 }

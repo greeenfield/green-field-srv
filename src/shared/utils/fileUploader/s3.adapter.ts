@@ -1,10 +1,9 @@
-import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express'
 import aws from 'aws-sdk'
-import multerS3 from 'multer-s3'
 
-export class S3Adapter implements MulterOptionsFactory {
+import { IFileUploader, UploadParameter, UploadedFile } from '#shared/utils/fileUploader/fileUploader.interface'
+export class S3Adapter implements IFileUploader {
   private s3
-  private readonly bucket: string
+  private bucket: string
 
   constructor(region: string, bucket: string, accessKeyId: string, secretAccessKey: string) {
     this.s3 = new aws.S3()
@@ -15,22 +14,15 @@ export class S3Adapter implements MulterOptionsFactory {
     })
   }
 
-  createMulterOptions(): MulterModuleOptions {
-    return {
-      storage: multerS3({
-        s3: this.s3,
-        acl: 'public-read',
-        bucket: this.bucket,
-        key: function (req, file, cb) {
-          cb(null, Date.now().toString())
-        },
-      }),
-    }
-  }
-
-  async upload(file) {
-    return await this.s3.upload({
-      Body: file,
-    })
+  async upload(file: UploadParameter): Promise<UploadedFile> {
+    return await this.s3
+      .upload({
+        Body: file.buffer,
+        Bucket: this.bucket,
+        Key: `image/${Date.now().toString() + file.originalname}`,
+        ACL: 'public-read',
+        ContentType: file.mimetype,
+      })
+      .promise()
   }
 }
