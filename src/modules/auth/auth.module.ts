@@ -1,7 +1,6 @@
 import { CqrsModule } from '@nestjs/cqrs'
 import { Module, Provider } from '@nestjs/common'
 import { PassportModule } from '@nestjs/passport'
-import { ConfigService } from '@nestjs/config'
 
 import { InjectionToken } from '#shared/enum/injection-token'
 

@@ -1,7 +1,6 @@
 import { CqrsModule } from '@nestjs/cqrs'
 import { Module, Provider } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ConfigService } from '@nestjs/config'
 
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
 import { UploadImageHandler } from './application/commands/handler/upload-image.handler'
