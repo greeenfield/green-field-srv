@@ -27,4 +27,8 @@ export class CreateNoteDTO {
   @Type(() => UrlMeta)
   @Expose({ name: 'url_metas' })
   urlMetas: UrlMeta[]
+
+  @IsString()
+  @Expose()
+  thumbnail: string
 }

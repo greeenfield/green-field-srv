@@ -25,8 +25,8 @@ export class NoteController {
 
   @Post()
   async createNote(@UserId() userId: string, @Body() body: CreateNoteDTO) {
-    const { title, isTemp, isPrivate, tags, urlMetas } = body
-    const command = new CreateNoteCommand(userId, title, body.body, isTemp, isPrivate, tags, urlMetas)
+    const { title, isTemp, isPrivate, tags, urlMetas, thumbnail } = body
+    const command = new CreateNoteCommand(userId, title, body.body, isTemp, isPrivate, tags, urlMetas, thumbnail)
 
     await this.commandBus.execute(command)
   }

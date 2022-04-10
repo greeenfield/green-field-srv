@@ -23,6 +23,9 @@ export class NoteEntity extends BaseEntity {
   @Column({ type: 'text', default: '' })
   body: string
 
+  @Column({ default: '' })
+  thumbnail: string
+
   @ManyToMany(() => TagEntity)
   @JoinTable({
     name: 'note_tags',

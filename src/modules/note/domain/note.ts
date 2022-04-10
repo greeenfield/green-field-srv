@@ -16,6 +16,7 @@ type NoteOptionalProperties = Partial<{
   readonly urlMetas: UrlMeta[]
   readonly tags: Tag[]
   readonly likes: number
+  readonly thumbnail: string
   readonly createdAt: Date
   readonly updatedAt: Date
   readonly releasedAt: Date
@@ -39,6 +40,7 @@ export class NoteImplement extends AggregateRoot implements Note {
   private urlMetas: UrlMeta[] | null
   private tags: Tag[] | null
   private likes: number
+  private thumbnail: string
   private createdAt: Date
   private updatedAt: Date
   private releasedAt: Date
@@ -59,6 +61,7 @@ export class NoteImplement extends AggregateRoot implements Note {
       isPrivate: this.isPrivate,
       urlMetas: this.urlMetas,
       tags: this.tags,
+      thumbnail: this.thumbnail,
       likes: this.likes,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,

@@ -17,6 +17,7 @@ export class NoteFactory {
     isPrivate,
     urlMetas,
     tags,
+    thumbnail,
   }: {
     id: string
     userId: string
@@ -26,9 +27,10 @@ export class NoteFactory {
     isPrivate: boolean
     urlMetas: UrlMeta[]
     tags: Tag[]
+    thumbnail: string
   }): Note {
     return this.eventPublisher.mergeObjectContext(
-      new NoteImplement({ id, userId, title, body, isTemp, isPrivate, urlMetas, tags }),
+      new NoteImplement({ id, userId, title, body, isTemp, isPrivate, urlMetas, tags, thumbnail }),
     )
   }
 

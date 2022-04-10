@@ -10,5 +10,6 @@ export class CreateNoteCommand implements ICommand {
     readonly isPrivate: boolean,
     readonly tags: string[],
     readonly urlMetas: UrlMeta[],
+    readonly thumbnail: string,
   ) {}
 }

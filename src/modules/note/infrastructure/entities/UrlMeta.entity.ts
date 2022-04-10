@@ -15,7 +15,7 @@ export class UrlMetaEntity extends BaseEntity {
   @Column({ length: 255 })
   url: string
 
-  @Column({ length: 255, type: 'varchar', nullable: true })
+  @Column({ length: 255, nullable: true })
   thumbnail: string
 
   @Column({ length: 255 })

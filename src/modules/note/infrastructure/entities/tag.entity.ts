@@ -8,7 +8,7 @@ export class TagEntity extends BaseEntity {
   @Column({ length: 255, default: '' })
   name: string
 
-  @Column({ length: 255, nullable: true, type: 'varchar' })
+  @Column({ nullable: true, type: 'text' })
   description: string | null
 
   static build(name: string, description?: string): TagEntity {
