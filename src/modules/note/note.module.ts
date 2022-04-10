@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigService } from '@nestjs/config'
 
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
+import { UploadImageHandler } from './application/commands/handler/upload-image.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -17,6 +18,7 @@ import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 
 import { InjectionToken } from '#shared/enum/injection-token'
+import { FileUploaderFactory } from '#shared/utils/fileUploader/fileUploader.factory'
 
 const infrastructure: Provider[] = [
   {
@@ -29,9 +31,9 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [CreateNoteHandler]
+const application = [CreateNoteHandler, UploadImageHandler]
 
-const domain = [NoteFactory, UserFactory]
+const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 
 @Module({
   imports: [CqrsModule, ConfigService, TypeOrmModule.forFeature([NoteEntity, UrlMetaEntity, TagEntity])],

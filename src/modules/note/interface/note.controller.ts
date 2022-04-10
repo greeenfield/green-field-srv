@@ -1,9 +1,12 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Body, UseInterceptors, UploadedFile } from '@nestjs/common'
 import { CommandBus } from '@nestjs/cqrs'
 
 import { Auth } from '#modules/auth/auth.decorator'
 import { CreateNoteCommand } from '#modules/note/application/commands/implement/create-note.command'
+import { UploadImageCommand } from '#modules/note/application/commands/implement/upload-image.command'
 import { CreateNoteDTO } from '#modules/note/interface/dto/create-note.dto'
+import { UploadImageResponseDTO } from '#modules/note/interface/dto/upload-image.response.dto'
+import { ImageFileInterceptor } from '#modules/note/infrastructure/remote/file.interceptor'
 
 import { UserId } from '#shared/decorator/userId.decorator'
 
@@ -11,6 +14,14 @@ import { UserId } from '#shared/decorator/userId.decorator'
 @Auth()
 export class NoteController {
   constructor(readonly commandBus: CommandBus) {}
+
+  @Post('upload')
+  @UseInterceptors(ImageFileInterceptor())
+  async uploadImage(@UploadedFile() uploadedFile): Promise<UploadImageResponseDTO> {
+    const command = new UploadImageCommand(uploadedFile)
+
+    return await this.commandBus.execute(command)
+  }
 
   @Post()
   async createNote(@UserId() userId: string, @Body() body: CreateNoteDTO) {
