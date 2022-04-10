@@ -14,7 +14,7 @@ export class NoteEntity extends BaseEntity {
   @Column({ type: 'uuid', nullable: true })
   userId: string
 
-  @OneToMany(() => UrlMetaEntity, (urlMeta) => urlMeta.note)
+  @OneToMany(() => UrlMetaEntity, (urlMeta) => urlMeta.note, { cascade: true })
   urlMetas: UrlMetaEntity[]
 
   @Column({ length: 255, default: '' })

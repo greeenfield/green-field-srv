@@ -7,4 +7,5 @@ export interface NoteRepository {
   save: (note: Note) => Promise<void>
   findOrCreateTag: (tagName: string) => Promise<Tag>
   findOrCreateTags: (tagNameList: string[]) => Promise<Tag[]>
+  removeById: (id: string) => Promise<void>
 }

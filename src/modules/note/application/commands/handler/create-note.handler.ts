@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common'
+import { ForbiddenException, Inject } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { CreateNoteCommand } from '#modules/note/application/commands/implement/create-note.command'
@@ -21,7 +21,7 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
     const user = await this.userRepository.findById(command.userId)
 
     if (!user) {
-      throw new Error('')
+      throw new ForbiddenException()
     }
 
     const note = this.noteFactory.create({

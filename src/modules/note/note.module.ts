@@ -3,8 +3,9 @@ import { Module, Provider } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { CreateNoteHandler } from '#modules/note/application/commands/handler/create-note.handler'
-import { UploadImageHandler } from './application/commands/handler/upload-image.handler'
-import { UpdateNoteHandler } from './application/commands/handler/update-note.handler'
+import { UploadImageHandler } from '#modules/note/application/commands/handler/upload-image.handler'
+import { UpdateNoteHandler } from '#modules/note/application/commands/handler/update-note.handler'
+import { RemoveNoteHandler } from '#modules/note/application/commands/handler/remove-note.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -31,7 +32,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler]
+const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler, RemoveNoteHandler]
 
 const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 

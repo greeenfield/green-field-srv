@@ -20,11 +20,10 @@ export class NoteRepositoryImplement implements NoteRepository {
 
   async save(note: Note): Promise<void> {
     const urlMetaEntities = plainToInstance(UrlMetaEntity, note.properties().urlMetas)
-
     const noteEntity = this.modelToEntity(note)
     noteEntity.urlMetas = urlMetaEntities
 
-    await Promise.all([getRepository(NoteEntity).save(noteEntity), getRepository(UrlMetaEntity).save(urlMetaEntities)])
+    await getRepository(NoteEntity).save(noteEntity)
   }
 
   async findById(id: string): Promise<Note | null> {
@@ -55,6 +54,10 @@ export class NoteRepositoryImplement implements NoteRepository {
     const newTag = await getRepository(TagEntity).save(TagEntity.build(tagName))
 
     return newTag
+  }
+
+  async removeById(id: string): Promise<void> {
+    await getRepository(NoteEntity).delete(id)
   }
 
   private modelToEntity(model: Note): NoteEntity {

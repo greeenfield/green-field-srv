@@ -5,7 +5,7 @@ import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 
 @Entity({ name: 'url_meta' })
 export class UrlMetaEntity extends BaseEntity {
-  @ManyToOne(() => NoteEntity, (note) => note.urlMetas)
+  @ManyToOne(() => NoteEntity, (note) => note.urlMetas, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'note_id' })
   note: NoteEntity
 

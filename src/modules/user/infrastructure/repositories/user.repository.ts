@@ -1,4 +1,4 @@
-import { getRepository, getConnection } from 'typeorm'
+import { getRepository, createQueryBuilder } from 'typeorm'
 import { plainToInstance } from 'class-transformer'
 import { Inject } from '@nestjs/common'
 
@@ -6,7 +6,6 @@ import { UserRepository } from '#modules/user/domain/repository'
 import { UserFactory } from '#modules/user/domain/factory'
 import { User } from '#modules/user/domain/user'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { UserProfileEntity } from '#modules/user/infrastructure/entities/profile.entity'
 
 export class UserRepositoryImplement implements UserRepository {
   constructor(@Inject(UserFactory) private readonly userFactory: UserFactory) {}
@@ -17,16 +16,11 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async save(data: User): Promise<void> {
-    const profileEntity = plainToInstance(UserProfileEntity, data.properties().profile)
-
-    await Promise.all([
-      getRepository(UserEntity).save(this.modelToEntity(data)),
-      getRepository(UserProfileEntity).save(profileEntity),
-    ])
+    await getRepository(UserEntity).save(this.modelToEntity(data))
   }
 
   async updatePassword(id: string, password: string): Promise<void> {
-    await getConnection().createQueryBuilder().update(UserEntity).set({ password }).where('id = :id', { id }).execute()
+    await createQueryBuilder().update(UserEntity).set({ password }).where('id = :id', { id }).execute()
   }
 
   async findByEmail(email: string): Promise<User> {
