@@ -6,6 +6,7 @@ import { CreateNoteHandler } from '#modules/note/application/commands/handler/cr
 import { UploadImageHandler } from '#modules/note/application/commands/handler/upload-image.handler'
 import { UpdateNoteHandler } from '#modules/note/application/commands/handler/update-note.handler'
 import { RemoveNoteHandler } from '#modules/note/application/commands/handler/remove-note.handler'
+import { GetNotesHandler } from '#modules/note/application/quries/handler/get-notes.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -17,6 +18,7 @@ import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
+import { NoteQueryImplement } from '#modules/note/infrastructure/quries/note.query'
 
 import { InjectionToken } from '#shared/enum/injection-token'
 import { FileUploaderFactory } from '#shared/utils/fileUploader/fileUploader.factory'
@@ -30,9 +32,13 @@ const infrastructure: Provider[] = [
     provide: InjectionToken.USER_REPOSITORY,
     useClass: UserRepositoryImplement,
   },
+  {
+    provide: InjectionToken.NOTE_QUERY_REPOSITORY,
+    useClass: NoteQueryImplement,
+  },
 ]
 
-const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler, RemoveNoteHandler]
+const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler, RemoveNoteHandler, GetNotesHandler]
 
 const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 
