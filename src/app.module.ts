@@ -15,6 +15,7 @@ import { getTypeOrmModule } from './typeORM.config'
 import { RedisModule } from '#config/redis/redis.module'
 import { REDIS } from '#config/redis/redis.constants'
 import { configuration } from '#config/configuration'
+import bodyParser from 'body-parser'
 
 const getConfigModule = () => {
   return ConfigModule.forRoot({
@@ -43,6 +44,7 @@ export class AppModule implements NestModule {
         }),
         passport.initialize(),
         passport.session(),
+        bodyParser.json(),
       )
       .forRoutes('*')
   }
