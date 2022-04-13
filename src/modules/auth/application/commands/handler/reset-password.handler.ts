@@ -1,7 +1,7 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
 import { ForbiddenException, Inject } from '@nestjs/common'
 
-import { injectionToken } from '#shared/enum/injection-token'
+import { InjectionToken } from '#shared/enum/injection-token'
 
 import { ResetPasswordCommand } from '#modules/auth/application/commands/implement/reset-password.command'
 import { UserRepository } from '#modules/user/domain/repository'
@@ -12,8 +12,8 @@ import { AuthTokenRepository } from '#modules/auth/domain/repository'
 @CommandHandler(ResetPasswordCommand)
 export class ResetPasswordHandler implements ICommandHandler<ResetPasswordCommand, void> {
   constructor(
-    @Inject(injectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository,
-    @Inject(injectionToken.AUTH_TOKEN_REPOSITORY) private readonly authTokenRepository: AuthTokenRepository,
+    @Inject(InjectionToken.USER_REPOSITORY) private readonly userRepository: UserRepository,
+    @Inject(InjectionToken.AUTH_TOKEN_REPOSITORY) private readonly authTokenRepository: AuthTokenRepository,
     private readonly tokenFactory: TokenFactory,
   ) {}
 

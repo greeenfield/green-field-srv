@@ -5,7 +5,7 @@ import { BaseEntity } from '#shared/entity/base.entity'
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
-  @OneToOne(() => UserProfileEntity, (profile) => profile.user)
+  @OneToOne(() => UserProfileEntity, (profile) => profile.user, { cascade: true })
   profile: UserProfileEntity
 
   @Column({ length: 255, default: '' })

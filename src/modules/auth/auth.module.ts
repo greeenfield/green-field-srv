@@ -1,9 +1,8 @@
 import { CqrsModule } from '@nestjs/cqrs'
 import { Module, Provider } from '@nestjs/common'
 import { PassportModule } from '@nestjs/passport'
-import { ConfigService } from '@nestjs/config'
 
-import { injectionToken } from '#shared/enum/injection-token'
+import { InjectionToken } from '#shared/enum/injection-token'
 
 import { UserRepositoryImplement } from '#modules/user/infrastructure/repositories/user.repository'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -23,11 +22,11 @@ import { TokenFactory } from '#shared/utils/token/token.factory'
 
 const infrastructure: Provider[] = [
   {
-    provide: injectionToken.USER_REPOSITORY,
+    provide: InjectionToken.USER_REPOSITORY,
     useClass: UserRepositoryImplement,
   },
   {
-    provide: injectionToken.AUTH_TOKEN_REPOSITORY,
+    provide: InjectionToken.AUTH_TOKEN_REPOSITORY,
     useClass: AuthTokenRepositoryImplement,
   },
 ]
@@ -37,7 +36,7 @@ const application = [LoginHandler, LogoutHandler, ForgotPasswordHandler, ResetPa
 const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory, TokenFactory]
 
 @Module({
-  imports: [ConfigService, CqrsModule, PassportModule.register({ session: true })],
+  imports: [CqrsModule, PassportModule.register({ session: true })],
   controllers: [AuthController],
   providers: [LocalStrategy, AuthSerializer, ...infrastructure, ...application, ...domain],
 })

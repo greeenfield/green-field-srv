@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing'
 
-import { injectionToken } from 'src/shared/enum/injection-token'
+import { InjectionToken } from 'src/shared/enum/injection-token'
 
 import { UserFactory } from 'src/modules/user/domain/factory'
 import { UserRepository } from 'src/modules/user/domain/repository'
@@ -21,7 +21,7 @@ describe('CreateUserHandler', () => {
           useValue: {},
         },
         {
-          provide: injectionToken.USER_REPOSITORY,
+          provide: InjectionToken.USER_REPOSITORY,
           useValue: {},
         },
       ],
@@ -29,7 +29,7 @@ describe('CreateUserHandler', () => {
 
     createUserHandler = module.get(CreateUserHandler)
     userFactory = module.get(UserFactory)
-    userRepository = module.get(injectionToken.USER_REPOSITORY)
+    userRepository = module.get(InjectionToken.USER_REPOSITORY)
   })
 
   const username = 'hyojeong'

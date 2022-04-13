@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { ForbiddenException } from '@nestjs/common'
 
-import { injectionToken } from 'src/shared/enum/injection-token'
+import { InjectionToken } from 'src/shared/enum/injection-token'
 
 import { UserRepository } from 'src/modules/user/domain/repository'
 import { LoginHandler } from '#modules/auth/application/commands/handler/login.handler'
@@ -16,14 +16,14 @@ describe('LoginHandler', () => {
       providers: [
         LoginHandler,
         {
-          provide: injectionToken.USER_REPOSITORY,
+          provide: InjectionToken.USER_REPOSITORY,
           useValue: {},
         },
       ],
     }).compile()
 
     loginHandler = module.get(LoginHandler)
-    userRepository = module.get(injectionToken.USER_REPOSITORY)
+    userRepository = module.get(InjectionToken.USER_REPOSITORY)
   })
 
   const email = 'test@example.com'

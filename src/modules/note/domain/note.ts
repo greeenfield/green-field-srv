@@ -1,64 +1,68 @@
 import { AggregateRoot } from '@nestjs/cqrs'
 
-import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
-import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
+import { UrlMeta } from '#modules/note/domain/urlMeta'
+import { Tag } from '#modules/note/domain/tag'
 
-// import { User } from '#modules/user/infrastructure/entities/user.entity'
-
-export type NoteRequireProperties = Required<{
+type NoteRequireProperties = Required<{
   readonly id: string
 }>
-// readonly user: User
 
-export type NoteOptionalProperties = Partial<{
+type NoteOptionalProperties = Partial<{
+  readonly userId: string
   readonly title: string
   readonly body: string
   readonly isTemp: boolean
   readonly isPrivate: boolean
-  readonly noteMetas: NoteMeta[]
+  readonly urlMetas: UrlMeta[]
   readonly tags: Tag[]
   readonly likes: number
+  readonly thumbnail: string
   readonly createdAt: Date
   readonly updatedAt: Date
   readonly releasedAt: Date
 }>
 
-export type NoteProperties = NoteRequireProperties & NoteOptionalProperties
+export type NoteProperties = NoteRequireProperties & Required<NoteOptionalProperties>
 
 export interface Note {
   properties: () => NoteProperties
-  create: (properties: NoteProperties) => Promise<void>
+  create: () => NoteImplement
+  update: (properties: NoteRequireProperties & NoteOptionalProperties) => NoteImplement
+  commit: () => void
 }
 
 export class NoteImplement extends AggregateRoot implements Note {
-  private readonly id: string
-  // private readonly user: User
-  private readonly title: string = ''
-  private readonly body: string = ''
-  private readonly isTemp: boolean = false
-  private readonly isPrivate: boolean = false
-  private readonly noteMetas: NoteMeta[] | null = null
-  private readonly tags: Tag[] | null = null
-  private readonly likes: number = 0
-  private readonly createdAt: Date = new Date()
-  private readonly updatedAt: Date = new Date()
-  private readonly releasedAt: Date | null = null
+  private id: string
+  private userId: string
+  private title: string
+  private body: string
+  private isTemp: boolean
+  private isPrivate: boolean
+  private urlMetas: UrlMeta[] | null
+  private tags: Tag[] | null
+  private likes: number
+  private thumbnail: string
+  private createdAt: Date
+  private updatedAt: Date
+  private releasedAt: Date
 
   constructor(properties: NoteRequireProperties & NoteOptionalProperties) {
     super()
     Object.assign(this, properties)
+    this.urlMetas = Object.values(properties.urlMetas)
   }
 
   properties(): NoteProperties {
     return {
       id: this.id,
-      // user: this.user,
+      userId: this.userId,
       title: this.title,
       body: this.body,
       isTemp: this.isTemp,
       isPrivate: this.isPrivate,
-      noteMetas: this.noteMetas,
+      urlMetas: this.urlMetas,
       tags: this.tags,
+      thumbnail: this.thumbnail,
       likes: this.likes,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -66,8 +70,23 @@ export class NoteImplement extends AggregateRoot implements Note {
     }
   }
 
-  async create(properties: NoteProperties): Promise<void> {
-    console.log(properties)
-    return
+  private isPublic(): boolean {
+    return this.isTemp === false && this.isPrivate === false
+  }
+
+  create(): NoteImplement {
+    if (this.isPublic()) this.releasedAt = new Date()
+
+    return this
+  }
+
+  update(properties: NoteRequireProperties & NoteOptionalProperties): NoteImplement {
+    if (this.isPublic()) this.releasedAt = new Date()
+
+    Object.assign(this, properties)
+    this.updatedAt = new Date()
+    this.urlMetas.forEach((urlMeta) => (urlMeta.updatedAt = new Date()))
+
+    return this
   }
 }

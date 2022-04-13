@@ -1,4 +1,5 @@
-import { getRepository, getConnection } from 'typeorm'
+import { getRepository, createQueryBuilder } from 'typeorm'
+import { plainToInstance } from 'class-transformer'
 import { Inject } from '@nestjs/common'
 
 import { UserRepository } from '#modules/user/domain/repository'
@@ -19,7 +20,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async updatePassword(id: string, password: string): Promise<void> {
-    await getConnection().createQueryBuilder().update(UserEntity).set({ password }).where('id = :id', { id }).execute()
+    await createQueryBuilder().update(UserEntity).set({ password }).where('id = :id', { id }).execute()
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -41,7 +42,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   private modelToEntity(model: User): UserEntity {
-    return model.properties()
+    return plainToInstance(UserEntity, model.properties())
   }
 
   private entityToModel(entity: UserEntity): User {
