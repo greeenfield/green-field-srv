@@ -9,7 +9,7 @@ export class UserProfileEntity extends BaseEntity {
   userId: string
 
   @OneToOne(() => UserEntity, (user) => user.profile, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userId' })
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity
 
   @Column({ length: 255, default: '' })

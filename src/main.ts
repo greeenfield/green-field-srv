@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import bodyParser from 'body-parser'
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 
@@ -14,6 +15,8 @@ async function bootstrap(): Promise<void> {
   const configService = app.get(ConfigService)
 
   app.use(bodyParser.json())
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   await app.listen(configService.get<string>('PORT'))
 }

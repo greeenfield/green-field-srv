@@ -1,47 +1,54 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, UpdateDateColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm'
 
 import { BaseEntity } from '#shared/entity/base.entity'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
-import { NoteMeta } from '#modules/note/infrastructure/entities/noteMeta.entity'
-import { Tag } from '#modules/note/infrastructure/entities/tag.entity'
+import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
+import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
 
-@Entity()
-export class Note extends BaseEntity {
-  @OneToOne(() => UserEntity)
-  @JoinColumn()
+@Entity({ name: 'note' })
+export class NoteEntity extends BaseEntity {
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity
 
-  @OneToMany(() => NoteMeta, (noteMeta) => noteMeta.note)
-  @JoinColumn()
-  noteMetas: NoteMeta[]
+  @Column({ type: 'uuid', nullable: true })
+  userId: string
 
-  @Column({ length: 255 })
+  @OneToMany(() => UrlMetaEntity, (urlMeta) => urlMeta.note, { cascade: true })
+  urlMetas: UrlMetaEntity[]
+
+  @Column({ length: 255, default: '' })
   title: string
 
-  @Column('text')
+  @Column({ type: 'text', default: '' })
   body: string
 
-  @ManyToMany(() => Tag)
+  @Column({ default: '' })
+  thumbnail: string
+
+  @ManyToMany(() => TagEntity)
   @JoinTable({
     name: 'note_tags',
     joinColumn: {
-      name: 'note',
+      name: 'note_id',
+      referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'tag',
+      name: 'tag_id',
+      referencedColumnName: 'id',
     },
   })
-  tags: Tag[]
+  tags: TagEntity[]
 
-  @Column()
+  @Column({ default: true })
   isTemp: boolean
 
-  @Column()
+  @Column({ default: true })
   isPrivate: boolean
 
   @Column({ default: 0 })
   likes: number
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
   releasedAt: Date
 }
