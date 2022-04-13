@@ -1,14 +1,14 @@
 import { Raw, createQueryBuilder } from 'typeorm'
-import { plainToInstance } from 'class-transformer'
+import { plainToInstance, ClassConstructor } from 'class-transformer'
 
 import { NoteQuery } from '#modules/note/domain/query'
-import { Note, Notes } from '#modules/note/application/quries/result/get-notes.result'
+import { GetNotesResult, Note } from '#modules/note/application/quries/result/get-notes.result'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 
 import { addDays } from '#shared/utils/snippets/dateCaculator'
 
 export class NoteQueryImplement implements NoteQuery {
-  async findNotes(offset: number, limit: number, timeframe: number): Promise<any> {
+  async findNotes(offset: number, limit: number, timeframe: number): Promise<GetNotesResult> {
     const notes = await createQueryBuilder(NoteEntity, 'note')
       .where({ isPrivate: false })
       .andWhere({ isTemp: false })
@@ -28,14 +28,34 @@ export class NoteQueryImplement implements NoteQuery {
         'user.username',
         'userProfile.thumbnail',
       ])
-      .innerJoinAndSelect('note.tags', 'tag')
+      .leftJoinAndSelect('note.tags', 'tag')
       .leftJoinAndSelect('note.urlMetas', 'urlMeta')
-      .leftJoin('note.user', 'user')
-      .leftJoin('user.profile', 'userProfile')
+      .innerJoin('note.user', 'user')
+      .innerJoin('user.profile', 'userProfile')
       .offset(offset)
       .take(limit)
       .getMany()
 
-    return notes
+    const converted = notes.map((note) => {
+      return {
+        ...note,
+        user: {
+          id: note.user.id,
+          username: note.user.username,
+          thumbnail: note.user.profile.thumbnail,
+        },
+        tags: note.tags.map((tag) => tag.name),
+      }
+    })
+
+    return plainToInstance(Note, converted, { strategy: 'excludeAll' })
+  }
+
+  private entityToResult<T>(entity: NoteEntity, classConstructor: ClassConstructor<T>): T {
+    return plainToInstance(classConstructor, entity, { strategy: 'excludeAll' })
+  }
+
+  private entitiesToResult<T>(entities: NoteEntity[], classConstructor: ClassConstructor<T>): T[] {
+    return plainToInstance(classConstructor, entities, { strategy: 'excludeAll' })
   }
 }
