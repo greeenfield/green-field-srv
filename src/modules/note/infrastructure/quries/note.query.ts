@@ -3,6 +3,7 @@ import { plainToInstance, ClassConstructor } from 'class-transformer'
 
 import { NoteQuery } from '#modules/note/domain/query'
 import { GetNotesResult, Note } from '#modules/note/application/quries/result/get-notes.result'
+import { GetContributionsResult, Contribution } from '#modules/note/application/quries/result/get-contributions.result'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 
 import { addDays } from '#shared/utils/snippets/dateCaculator'
@@ -49,6 +50,19 @@ export class NoteQueryImplement implements NoteQuery {
     })
 
     return plainToInstance(Note, converted, { strategy: 'excludeAll' })
+  }
+
+  async findContributions(userId: string, beginDate: string, endDate: string): Promise<GetContributionsResult> {
+    const raw = await createQueryBuilder(NoteEntity, 'note')
+      .where({ userId })
+      .andWhere('"created_at" BETWEEN :beginDate AND :endDate', {
+        beginDate,
+        endDate,
+      })
+      .select(['note.id', 'note.title', 'note.createdAt'])
+      .getRawMany()
+
+    return plainToInstance(Contribution, raw)
   }
 
   private entityToResult<T>(entity: NoteEntity, classConstructor: ClassConstructor<T>): T {
