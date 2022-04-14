@@ -76,6 +76,7 @@ export class NoteController {
     return await this.queryBus.execute(query)
   }
 
+  @Auth()
   @Get('contributions')
   async getContributions(@Body() body: GetContributionsDTO) {
     const query = new GetContributionsQuery(body.userId, body.beginDate, body.endDate)
