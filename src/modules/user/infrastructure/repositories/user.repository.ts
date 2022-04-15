@@ -6,6 +6,7 @@ import { UserRepository } from '#modules/user/domain/repository'
 import { UserFactory } from '#modules/user/domain/factory'
 import { User } from '#modules/user/domain/user'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
+import { UserMetaEntity } from '#modules/user/infrastructure/entities/meta.entity'
 
 export class UserRepositoryImplement implements UserRepository {
   constructor(@Inject(UserFactory) private readonly userFactory: UserFactory) {}
@@ -39,6 +40,14 @@ export class UserRepositoryImplement implements UserRepository {
     const entityList = await getRepository(UserEntity).find()
 
     return entityList.map((entity) => this.entityToModel(entity))
+  }
+
+  async updateContributionSetting(userId: string, privateContribution: boolean): Promise<void> {
+    await createQueryBuilder()
+      .update(UserMetaEntity)
+      .set({ privateContribution })
+      .where('userId = :userId', { userId })
+      .execute()
   }
 
   private modelToEntity(model: User): UserEntity {

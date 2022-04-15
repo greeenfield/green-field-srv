@@ -7,6 +7,7 @@ import { UploadImageHandler } from '#modules/note/application/commands/handler/u
 import { UpdateNoteHandler } from '#modules/note/application/commands/handler/update-note.handler'
 import { RemoveNoteHandler } from '#modules/note/application/commands/handler/remove-note.handler'
 import { GetNotesHandler } from '#modules/note/application/quries/handler/get-notes.handler'
+import { GetContributionsHandler } from '#modules/note/application/quries/handler/get-contributions.handler'
 
 import { NoteFactory } from '#modules/note/domain/factory'
 import { UserFactory } from '#modules/user/domain/factory'
@@ -38,7 +39,14 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [CreateNoteHandler, UploadImageHandler, UpdateNoteHandler, RemoveNoteHandler, GetNotesHandler]
+const application = [
+  CreateNoteHandler,
+  UploadImageHandler,
+  UpdateNoteHandler,
+  RemoveNoteHandler,
+  GetNotesHandler,
+  GetContributionsHandler,
+]
 
 const domain = [NoteFactory, UserFactory, FileUploaderFactory]
 

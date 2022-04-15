@@ -2,58 +2,56 @@ import { IQueryResult } from '@nestjs/cqrs'
 import { Expose, Type } from 'class-transformer'
 
 class User {
-  @Expose({ name: 'user_id' })
+  @Expose()
   readonly id: string
 
-  @Expose({ name: 'user_username' })
+  @Expose()
   readonly username: string
 
-  @Expose({ name: 'userProfile_thumbnail' })
+  @Expose()
   readonly thumbnail: string
 }
 
 export class UrlMeta {
-  @Expose({ name: 'urlMeta_url' })
+  @Expose()
   url: string
 
-  @Expose({ name: 'urlMeta_thumbnail' })
+  @Expose()
   thumbnail: string
 
-  @Expose({ name: 'urlMeta_title' })
+  @Expose()
   title: string
 
-  @Expose({ name: 'urlMeta_description' })
+  @Expose()
   description: string
 }
 
 export class Note {
-  @Expose({ name: 'note_id' })
+  @Expose()
   readonly id: string
 
-  @Expose({ name: 'note_title' })
+  @Expose()
   readonly title: string
 
-  @Expose({ name: 'note_likes' })
+  @Expose()
   readonly likes: number
 
-  @Expose({ name: 'note_thumbnail' })
+  @Expose()
   readonly thumbnail: string
 
+  @Expose()
   @Type(() => User)
   readonly user: User
 
+  @Expose()
   @Type(() => UrlMeta)
   readonly urlMetas: UrlMeta[]
 
-  @Expose({ name: 'tag_name' })
+  @Expose()
   readonly tags: string[]
 
-  @Expose({ name: 'note_updated_at' })
+  @Expose()
   readonly updatedAt: Date
 }
 
-export class Notes extends Array<Note> {}
-
-export class GetNotesResult implements IQueryResult {
-  notes: Note[]
-}
+export class GetNotesResult extends Array<Note> implements IQueryResult {}

@@ -19,6 +19,22 @@ export type UserProfileOptionalProperties = Partial<{
 
 export type UserProfileProperties = UserProfileRequireProperties & Required<UserProfileOptionalProperties>
 
+export type UserMetaRequireProperties = Required<{
+  readonly id: string
+}>
+
+export type UserMetaOptionalProperties = Partial<{
+  readonly userId: string
+  readonly user: UserProperties | null
+  readonly privateContribution: boolean
+  readonly emailNotification: boolean
+  readonly emailPromotion: boolean
+  readonly createdAt: Date
+  readonly updatedAt: Date
+}>
+
+export type UserMetaProperties = UserMetaRequireProperties & Required<UserMetaOptionalProperties>
+
 export type UserRequireProperties = Required<{
   readonly id: string
   readonly email: string
@@ -28,6 +44,7 @@ export type UserOptionalProperties = Partial<{
   readonly password: string
   readonly username: string
   readonly profile: UserProfileProperties
+  readonly meta: UserMetaProperties
   readonly createdAt: Date
   readonly updatedAt: Date
 }>
@@ -57,6 +74,13 @@ export class UserImplement extends AggregateRoot implements User {
   private profileCreatedAt: Date
   private profileUpdatedAt: Date
 
+  private metaId: string
+  private privateContribution: boolean
+  private emailNotification: boolean
+  private emailPromotion: boolean
+  private metaCreatedAt: Date
+  private metaUpdatedAt: Date
+
   constructor(properties: UserRequireProperties & UserOptionalProperties) {
     super()
     Object.assign(this, properties)
@@ -69,6 +93,14 @@ export class UserImplement extends AggregateRoot implements User {
     this.about = properties.about
     this.profileCreatedAt = properties.createdAt || new Date()
     this.profileUpdatedAt = properties.updatedAt || new Date()
+  }
+
+  setMeta(properties: UserMetaRequireProperties & UserMetaOptionalProperties) {
+    this.privateContribution = properties.privateContribution
+    this.emailNotification = properties.emailNotification
+    this.emailPromotion = properties.emailPromotion
+    this.metaCreatedAt = properties.createdAt
+    this.metaUpdatedAt = properties.updatedAt
   }
 
   properties(): UserRequireProperties & Required<UserOptionalProperties> {
@@ -86,6 +118,16 @@ export class UserImplement extends AggregateRoot implements User {
         about: this.about,
         createdAt: this.profileCreatedAt,
         updatedAt: this.profileUpdatedAt,
+      },
+      meta: {
+        id: this.metaId,
+        userId: this.id,
+        user: null,
+        privateContribution: this.privateContribution,
+        emailNotification: this.emailNotification,
+        emailPromotion: this.emailPromotion,
+        createdAt: this.metaCreatedAt,
+        updatedAt: this.metaUpdatedAt,
       },
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
