@@ -11,6 +11,7 @@ import { UpdateNoteCommand } from '#modules/note/application/commands/implement/
 import { RemoveNoteCommand } from '#modules/note/application/commands/implement/remove-note.command'
 
 import { GetNotesQuery } from '#modules/note/application/quries/implement/get-notes.query'
+import { GetContributionsQuery } from '#modules/note/application/quries/implement/get-contributions.query'
 
 import { CreateNoteDTO } from '#modules/note/interface/dto/create-note.dto'
 import { UpdateNoteDTO } from '#modules/note/interface/dto/update-note.dto'
@@ -18,6 +19,7 @@ import { UpdateNoteParamDTO } from '#modules/note/interface/dto/update-note.para
 import { RemoveNoteParamDTO } from '#modules/note/interface/dto/remove-note.parameter.dto'
 import { UploadImageResponseDTO } from '#modules/note/interface/dto/upload-image.response.dto'
 import { GetNotesResponseDTO } from '#modules/note/interface/dto/get-notes.response.dto'
+import { GetContributionsDTO } from '#modules/note/interface/dto/get-contributions.dto'
 
 @Controller('note')
 export class NoteController {
@@ -71,6 +73,13 @@ export class NoteController {
   @Get()
   async getNotes(): Promise<GetNotesResponseDTO> {
     const query = new GetNotesQuery(0, 20, -30)
+    return await this.queryBus.execute(query)
+  }
+
+  @Auth()
+  @Get('contributions')
+  async getContributions(@Body() body: GetContributionsDTO) {
+    const query = new GetContributionsQuery(body.userId, body.beginDate, body.endDate)
     return await this.queryBus.execute(query)
   }
 }

@@ -11,9 +11,10 @@ import { InjectionToken } from '#shared/enum/injection-token'
 export class GetNotesHandler implements IQueryHandler<GetNotesQuery, GetNotesResult> {
   constructor(@Inject(InjectionToken.NOTE_QUERY_REPOSITORY) private readonly noteQuery: NoteQuery) {}
 
-  async execute(query: GetNotesQuery): Promise<any> {
+  async execute(query: GetNotesQuery): Promise<GetNotesResult> {
     const { offset, limit, timeframe } = query
+    const notes = await this.noteQuery.findNotes(offset, limit, timeframe)
 
-    return await this.noteQuery.findNotes(offset, limit, timeframe)
+    return notes
   }
 }

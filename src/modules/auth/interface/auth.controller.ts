@@ -23,7 +23,7 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
-    this.commandBus.execute(new LogoutCommand(req, res))
+    return this.commandBus.execute(new LogoutCommand(req, res))
   }
 
   @Post('forgot-password')
