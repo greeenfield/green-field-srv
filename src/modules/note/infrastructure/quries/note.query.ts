@@ -52,19 +52,25 @@ export class NoteQueryImplement implements NoteQuery {
     return plainToInstance(Note, converted, { strategy: 'excludeAll' })
   }
 
-  async findContributions(userId: string, beginDate: string, endDate: string): Promise<GetContributionsResult> {
+  async findContributions(
+    userId: string,
+    beginDate: string,
+    endDate: string,
+    isIncludePrivate: boolean,
+  ): Promise<GetContributionsResult> {
     const raw = await createQueryBuilder(NoteEntity, 'note')
       .where({ userId })
       .andWhere('"created_at" BETWEEN :beginDate AND :endDate', {
         beginDate,
         endDate,
       })
+      .andWhere({ isTemp: false })
+      .andWhere({ isPrivate: isIncludePrivate })
       .select(['note.id', 'note.title', 'note.createdAt'])
       .getRawMany()
 
     return plainToInstance(Contribution, raw)
   }
-
   private entityToResult<T>(entity: NoteEntity, classConstructor: ClassConstructor<T>): T {
     return plainToInstance(classConstructor, entity, { strategy: 'excludeAll' })
   }

@@ -3,5 +3,10 @@ import { GetContributionsResult } from '#modules/note/application/quries/result/
 
 export interface NoteQuery {
   findNotes: (offset: number, limit: number, timeframe: number) => Promise<GetNotesResult>
-  findContributions: (userId: string, beginDate: string, endDate: string) => Promise<GetContributionsResult>
+  findContributions: (
+    userId: string,
+    beginDate: string,
+    endDate: string,
+    isIncludePrivate: boolean,
+  ) => Promise<GetContributionsResult>
 }

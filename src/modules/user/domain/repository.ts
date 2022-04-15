@@ -7,4 +7,5 @@ export interface UserRepository {
   findById: (id: string) => Promise<User>
   findByEmail: (email: string) => Promise<User>
   findAll: () => Promise<User[]>
+  updateContributionSetting: (userId: string, privateContribution: boolean) => Promise<void>
 }

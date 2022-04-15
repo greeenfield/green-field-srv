@@ -23,7 +23,9 @@ export class GetContributionsHandler implements IQueryHandler<GetContributionsQu
       throw new NotFoundException()
     }
 
-    const contributions = await this.noteQuery.findContributions(userId, beginDate, endDate)
+    const isIncludePrivate = user.properties().meta.privateContribution
+
+    const contributions = await this.noteQuery.findContributions(userId, beginDate, endDate, isIncludePrivate)
 
     return contributions.reduce((acc, c) => {
       const date = new Date(c.createdAt).toDateString()
