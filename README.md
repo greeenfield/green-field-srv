@@ -5,9 +5,11 @@
 1. [ Introduction ](#introduction)
 2. [ Architecture ](#architecture)
 3. [ Feature ](#feature)
-4. [ Installation ](#installation)
-5. [ Running the app ](#running-app)
-6. [ Test ](#test)
+4. [ Skill ](#skill)
+5. [ Things to do ](#todo)
+6. [ Installation ](#installation)
+7. [ Running the app ](#running-app)
+8. [ Test ](#test)
 
 <a name="introduction"></a>
 
@@ -18,7 +20,7 @@ Green Field는 1일 1커밋과 TIL에서 아이디어를 얻은 블로그입니�
 강의나 글로 공부를 한 뒤, 간단하게 정리하는 요약노트 성격을 가지고있습니다.</br>
 Green Field의 주 목적으로는 자신의 공부 내용을 정리 및 복습하고 잔디밭을 통한 동기부여에 있습니다.
 
-> 이번 프로젝트를 진행하면서 가장 오랫동안 고민했던 부분은 **테스트코드**와 **올바른 아키텍쳐의 사용**이었습니다.</br>
+> 이번 프로젝트를 진행하면서 가장 오랫동안 고민했던 부분은 **올바른 아키텍쳐의 사용**이었습니다.</br>
 > 수 많은 변경사항이 생기는 환경에서 예측할 수 없는 버그들을 경험했고, 테스트코드와 아키텍쳐의 부재가 얼마나 위험한지 깨달은 적이 있습니다.</br>
 > 따라서 이번 프로젝트를 계획할 때 이 두 가지를 중점적으로 오랫동안 고민했고, 최종적으로 테스트코드 작성과 기능 확장이나 수정에 있어서 좋은 환경을 제공하는 DDD 아키텍쳐를 사용하게 되었습니다.
 
@@ -43,19 +45,48 @@ Aggregate Root와 Entity로 구성된 모델 내부에 비즈니스 핵심 로�
 
 ### Infrastructure Layer
 
-상위계층을 지원하는 기술적인 기능을 제공하는 계층입니다. 데이터베이스 액세스, 메시징 시스템, 캐싱 또는 외부 시스템 호출 등이 포함됩니다.
+상위계층을 지원하는 기술적인 기능을 제공하는 계층입니다. 데이터베이스 액세스, 외부 시스템 호출 등이 포함됩니다.
 
 <a name="feature"></a>
 
 ## Feature
 
-- 회원가입, 로그인&로그아웃
+- DDD 아키텍처 사용
+- Nest.js의 CQRS 모듈을 사용하여 낮은 수준의 CQRS 패턴 적용
+- 쿠키와 세션 방식의 인증
+- 회원가입
+- 로그인과 로그아웃
 - 비밀번호 재설정
-- 글 작성, 수정, 삭제
-- 해쉬태그 사용
-- 웹 크롤러로 URL 썸네일 생성
-- 날짜 별 잔디밭 생성, 잔디 하나에 대한 상세내용 확인
-- 프로필 수정
+- 노트 작성, 수정, 삭제
+- 날짜 별 잔디밭 생성
+- 잔디 하나에 대한 상세내용 확인
+- 잔디밭 생성 기준 설정
+
+<a name="Skill"></a>
+
+## Skill
+
+- Node.js (Typescript)
+- Nest.js
+- PostgreSQL
+- TypeORM
+- Redis
+- Jest
+- Passport.js
+- JWT
+- AWS S3
+
+<a name="todo"></a>
+
+## Things to do
+
+- 테스트 케이스 추가
+- 노트에 url 첨부 시 메타데이터로 썸네일 생성할 웹 크롤러 추가
+- 개인 프로일 수정 기능
+- 해시 태그 검색 기능
+- 노트 likes 업데이트 기능
+- 도커라이징
+- AWS RDS 연동하여 EC2 배포
 
 <a name="installation"></a>
 
@@ -75,9 +106,6 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 <a name="test"></a>
