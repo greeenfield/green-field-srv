@@ -1,10 +1,19 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "roots": ["<rootDir>/src/**/__test__", "<rootDir>/src"],
+  "roots": ["<rootDir>/src"],
   "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "testMatch": ["**/*.e2e.spec.ts"]
+  "testMatch": ["**/*.e2e.spec.ts"],
+  "moduleNameMapper": {
+    "src/modules(|/.*)$": "<rootDir>/src/modules/$1",
+    "^#modules(|/.*)$": "<rootDir>/src/modules/$1",
+    "src/shared(|/.*)$": "<rootDir>/src/shared/$1",
+    "^#shared(|/.*)$": "<rootDir>/src/shared/$1",
+    "src/config(|/.*)$": "<rootDir>/src/config/$1",
+    "^#config(|/.*)$": "<rootDir>/src/config/$1",
+    "src/app.module": "<rootDir>/src/app.module",
+    "test-suite/helper": "<rootDir>/test-suite/helper"
+  }
 }
