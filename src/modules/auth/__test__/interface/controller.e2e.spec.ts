@@ -1,6 +1,5 @@
-import encodings from '../../../../../node_modules/iconv-lite/encodings'
-
-import { Test } from '@nestjs/testing'
+import { getConnection } from 'typeorm'
+import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import request from 'supertest'
 
@@ -11,18 +10,24 @@ describe('[E2E] AuthController', () => {
   let app: INestApplication
 
   beforeAll(async () => {
-    const testingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile()
 
-    app = testingModule.createNestApplication()
+    app = module.createNestApplication()
 
     await app.init()
   })
 
-  test('Login', async () => {
+  afterAll(async () => {
+    await getConnection().close()
+  })
+
+  it('/login', async () => {
     const { email, password } = await mockUserOnDb()
 
-    await request.agent(app.getHttpServer()).post('/auth/login').send({ email, password }).expect(200)
+    const res = await request(app.getHttpServer()).post('/auth/login').send({ email, password })
+
+    expect(res.status).toBe(200)
   })
 })
