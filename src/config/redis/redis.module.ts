@@ -8,7 +8,7 @@ import { REDIS } from './redis.constants'
     {
       provide: REDIS,
       useFactory: async () => {
-        const client = Redis.createClient({ url: process.env.REDIS_URL })
+        const client = Redis.createClient({ url: process.env.REDIS_URL, legacyMode: true })
 
         await client.connect()
 
