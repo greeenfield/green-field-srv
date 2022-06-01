@@ -11,6 +11,7 @@ import { UserController } from '#modules/user/interface/user.controller'
 import { CreateUserHandler } from '#modules/user/application/commands/handler/create-user.handler'
 import { UpdateContributionSettingHandler } from '#modules/user/application/commands/handler/update-contribution-setting.handler'
 import { UserCreatedHandler } from '#modules/user/application/events/user-created.handler'
+import { GetMeHandler } from '#modules/user/application/commands/handler/get-me.handler'
 
 import { HtmlTemplateFactory } from '#shared/utils/htmlTemplate/htmlTemplate.factory'
 import { InjectionToken } from '#shared/enum/injection-token'
@@ -23,7 +24,7 @@ const infrastructure: Provider[] = [
   },
 ]
 
-const application = [CreateUserHandler, UserCreatedHandler, UpdateContributionSettingHandler]
+const application = [CreateUserHandler, UserCreatedHandler, UpdateContributionSettingHandler, GetMeHandler]
 
 const domain: Provider[] = [UserFactory, MailerFactory, HtmlTemplateFactory]
 

@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs'
-import { Inject } from '@nestjs/common'
+import { BadRequestException, Inject } from '@nestjs/common'
 
 import { InjectionToken } from '#shared/enum/injection-token'
 
@@ -17,7 +17,15 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand, voi
   async execute(command: CreateUserCommand): Promise<void> {
     const { username, email, nickname, thumbnail, about, password } = command
 
-    const [id, profileId] = await Promise.all([this.userRepository.newId(), this.userRepository.newId()])
+    const [id, profileId, existUser] = await Promise.all([
+      this.userRepository.newId(),
+      this.userRepository.newId(),
+      this.userRepository.findByEmail(email),
+    ])
+
+    if (existUser) {
+      throw new BadRequestException('이미 존재하는 이메일입니다.')
+    }
 
     const user = this.userFactory.create({
       id,

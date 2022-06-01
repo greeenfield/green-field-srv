@@ -9,6 +9,7 @@ import { Tag } from '#modules/note/domain/tag'
 import { NoteEntity } from '#modules/note/infrastructure/entities/note.entity'
 import { UrlMetaEntity } from '#modules/note/infrastructure/entities/urlMeta.entity'
 import { TagEntity } from '#modules/note/infrastructure/entities/tag.entity'
+import { UrlMeta } from '#modules/note/domain/urlMeta'
 
 export class NoteRepositoryImplement implements NoteRepository {
   constructor(@Inject(NoteFactory) private readonly noteFactory: NoteFactory) {}
@@ -24,6 +25,14 @@ export class NoteRepositoryImplement implements NoteRepository {
     noteEntity.urlMetas = urlMetaEntities
 
     await getRepository(NoteEntity).save(noteEntity)
+  }
+
+  async saveUrlMeta(urlMeta: UrlMeta): Promise<UrlMetaEntity> {
+    return await getRepository(UrlMetaEntity).save(urlMeta)
+  }
+
+  async saveUrlMetas(urlMetas: UrlMeta[]): Promise<UrlMetaEntity[]> {
+    return await Promise.all(urlMetas.map((urlMeta) => this.saveUrlMeta(urlMeta)))
   }
 
   async findById(id: string): Promise<Note | null> {

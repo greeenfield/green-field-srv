@@ -1,4 +1,4 @@
-import { IsString, IsEmail, MaxLength, MinLength } from 'class-validator'
+import { IsString, IsEmail, MaxLength, MinLength, IsOptional } from 'class-validator'
 
 export class CreateUserDTO {
   @IsString()
@@ -20,10 +20,12 @@ export class CreateUserDTO {
   readonly password: string
 
   @IsString()
+  @IsOptional()
   readonly thumbnail: string
 
   @IsString()
   @MinLength(0)
   @MaxLength(200)
+  @IsOptional()
   readonly about: string
 }

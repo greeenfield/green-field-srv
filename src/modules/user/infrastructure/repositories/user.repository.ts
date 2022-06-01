@@ -1,5 +1,5 @@
 import { getRepository, createQueryBuilder } from 'typeorm'
-import { plainToInstance } from 'class-transformer'
+import { plainToInstance, instanceToPlain } from 'class-transformer'
 import { Inject } from '@nestjs/common'
 
 import { UserRepository } from '#modules/user/domain/repository'
@@ -7,6 +7,7 @@ import { UserFactory } from '#modules/user/domain/factory'
 import { User } from '#modules/user/domain/user'
 import { UserEntity } from '#modules/user/infrastructure/entities/user.entity'
 import { UserMetaEntity } from '#modules/user/infrastructure/entities/meta.entity'
+import { GetMeResponseDTO } from '#modules/user/interface/dto/get-me.response.dto'
 
 export class UserRepositoryImplement implements UserRepository {
   constructor(@Inject(UserFactory) private readonly userFactory: UserFactory) {}
@@ -31,8 +32,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async findById(id: string): Promise<User> {
-    const userEntitiy = await getRepository(UserEntity).findOne(id)
-
+    const userEntitiy = await getRepository(UserEntity).findOne({ relations: ['profile'], where: { id } })
     return this.entityToModel(userEntitiy)
   }
 
@@ -55,6 +55,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   private entityToModel(entity: UserEntity): User {
+    if (!entity) return null
     return this.userFactory.reconstitute(entity)
   }
 }

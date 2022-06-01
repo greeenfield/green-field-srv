@@ -17,8 +17,13 @@ export class LoginHandler implements ICommandHandler<LoginCommand, User> {
 
     const user = await this.userRepository.findByEmail(email)
 
-    if (!user || !user.comparePassword(password)) {
-      throw new ForbiddenException('Incorrect email or password.')
+    console.log(user)
+    if (!user) {
+      throw new ForbiddenException('이메일 또는 비밀번호를 확인해주세요.')
+    }
+
+    if (!user.comparePassword(password)) {
+      throw new ForbiddenException('이메일 또는 비밀번호를 확인해주세요.')
     }
 
     return user

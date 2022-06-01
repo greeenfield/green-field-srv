@@ -15,9 +15,9 @@ export class UserProfileEntity extends BaseEntity {
   @Column({ length: 255, default: '' })
   nickname: string
 
-  @Column({ length: 255, type: 'varchar', default: '' })
+  @Column({ length: 255, type: 'varchar', default: process.env.AVARTAR_IMG, nullable: true })
   thumbnail: string
 
-  @Column({ default: '' })
+  @Column({ default: '', nullable: true })
   about: string
 }

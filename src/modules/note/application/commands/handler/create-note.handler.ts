@@ -24,15 +24,21 @@ export class CreateNoteHandler implements ICommandHandler<CreateNoteCommand, voi
       throw new ForbiddenException()
     }
 
+    const [id, _tags] = await Promise.all([
+      this.noteRepository.newId(),
+      this.noteRepository.findOrCreateTags(tags),
+      // this.noteRepository.saveUrlMetas(urlMetas),
+    ])
+
     const note = this.noteFactory.create({
-      id: await this.noteRepository.newId(),
+      id,
       userId,
       title,
       body,
       isTemp,
       isPrivate,
       thumbnail,
-      tags: await this.noteRepository.findOrCreateTags(tags),
+      tags: _tags,
       urlMetas,
     })
 
