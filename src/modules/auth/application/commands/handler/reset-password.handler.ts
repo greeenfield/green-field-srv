@@ -29,8 +29,6 @@ export class ResetPasswordHandler implements ICommandHandler<ResetPasswordComman
       this.userRepository.findById(userId),
     ])
 
-    console.log(authToken)
-
     if (authToken.disabled || exp < Date.now() / 1000) {
       new ForbiddenException('Disabled token')
     }

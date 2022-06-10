@@ -50,8 +50,6 @@ export class ForgotPasswordHandler implements ICommandHandler<ForgotPasswordComm
       resetUrl: new Url(`${configuration().baseUrl}/${Path.AUTH_FORGOT_PASSWORD}`).append({ token }).generate(),
     })
 
-    console.log(token)
-
     await Promise.all([
       this.authTokenRepository.save(authToken),
       this.mailerFactory.create().sendMail({

@@ -20,7 +20,7 @@ import bodyParser from 'body-parser'
 const getConfigModule = () => {
   return ConfigModule.forRoot({
     isGlobal: true,
-    envFilePath: process.env.NODE_ENV === 'development' ? '.development.env' : '.local.env',
+    envFilePath: process.env.NODE_ENV === 'development' ? '.development.env' : '.development.env',
     load: [configuration],
   })
 }
